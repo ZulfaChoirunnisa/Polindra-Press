@@ -12,12 +12,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    public function admin(){
-        return $this->hasOne('App\Models\Admin');
-    }
-    public function pengaju(){
-        return $this->hasOne('App\Models\Pengaju');
-    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -26,6 +21,7 @@ class User extends Authenticatable
     protected $fillable = [
         'username',
         'password',
+        'email',
         'role',
     ];
 
@@ -47,4 +43,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function admin()
+    {
+        return $this->hasOne('App\Models\Admin');
+    }
+    public function pengaju()
+    {
+        return $this->hasOne('App\Models\Pengaju');
+    }
 }

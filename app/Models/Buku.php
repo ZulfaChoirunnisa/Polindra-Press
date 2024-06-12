@@ -8,26 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Buku extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'penulis_id',
-        'pengaju_id',
-        'Judul',
-        'JumlahHalaman',
-        'DaftarPustaka',
-        'Resensi',
-        'suratkeaslian',
-        'coverbuku',
-        'tahunterbit',
-        'harga',
-        'noproduk',
-        'ISBN',
-        'admin_comments',
-        'status',
-    ];
-    public function penulis(){
-        return $this->belongsTo('App\Models\Penulis');
+    protected $guarded = [''];
+
+    public function penulis()
+    {
+        return $this->belongsTo(Penulis::class, 'penulis_id');
     }
-    public function pengaju(){
+    public function pengaju()
+    {
         return $this->belongsTo('App\Models\Pengaju');
     }
 }

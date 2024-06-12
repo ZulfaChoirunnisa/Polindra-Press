@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illmuinate\Support\Facedes\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -42,7 +42,8 @@ class LoginController extends Controller
     {
         return view('auth.login');
     }
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         $input = $request->all();
         $this->validate($request, [
             'username' => ['required', 'string',  'max:255'],
@@ -53,10 +54,8 @@ class LoginController extends Controller
         ]);
 
         if (auth()->attempt(array('username' => $input['username'], 'password' => $input['password']))) {
-            
-            alert()->toast('Welcome '. '<b>'.Auth::user()->username . '</b>' .', you have been successfully logged in!', 'success')->position('top-end');
-            return redirect()->route('home');
-            
+
+            return redirect()->route('home')->with('success', 'Login Berhasil' . Auth::user()->name . 'Selamat Datang');
         } else {
             return redirect()->route('login')
                 ->withErrors('username atau Password Salah.');

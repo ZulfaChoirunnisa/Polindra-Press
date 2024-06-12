@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('penulis', function (Blueprint $table) {
             $table->id();
-            $table->string('NAMA');
-            $table->string('NoTelepon');
-            $table->string('Alamat');
+            $table->string('nama');
+            $table->string('noTelepon');
+            $table->string('alamat');
             $table->timestamps();
         });
     }

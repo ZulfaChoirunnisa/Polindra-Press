@@ -25,10 +25,11 @@ class DatabaseSeeder extends Seeder
         // ]);
         $user = User::create([
             'username' => 'admin',
-            'password' => bcrypt('123456789'),
+            'password' => bcrypt('password'),
+            'email' => 'admin@gmail.com',
             'role' => 'admin',
         ]);
-        if($user){
+        if ($user) {
             Admin::create([
                 'user_id' => $user->id,
                 'name' => 'admin',
@@ -36,11 +37,12 @@ class DatabaseSeeder extends Seeder
         }
 
         $user = User::create([
-            'username' => 'pengaju@gmail.com',
-            'password' => bcrypt('123456789'),
+            'username' => 'pengaju',
+            'password' => bcrypt('password'),
+            'email' => 'pengaju@gmail.com',
             'role' => 'pengaju',
         ]);
-        if($user){
+        if ($user) {
             Pengaju::create([
                 'user_id' => $user->id,
                 'name' => 'pengaju',
@@ -48,11 +50,12 @@ class DatabaseSeeder extends Seeder
         }
 
         $user = User::create([
-            'username' => 'adisuheryadi@gmail.com',
-            'password' => bcrypt('aditi1234'),
+            'username' => 'adisuheryadi',
+            'password' => bcrypt('password'),
             'role' => 'pengaju',
+            'email' => 'adusuheryadi@gmail.com'
         ]);
-        if($user){
+        if ($user) {
             Pengaju::create([
                 'user_id' => $user->id,
                 'name' => 'pengaju',
@@ -60,11 +63,12 @@ class DatabaseSeeder extends Seeder
         }
 
         $user = User::create([
-            'username' => 'rahmatullah@gmail.com',
-            'password' => bcrypt('rahmat1234'),
+            'username' => 'rahmatullah',
+            'password' => bcrypt('password'),
             'role' => 'pengaju',
+            'email' => 'rahmatullah@gmail.com'
         ]);
-        if($user){
+        if ($user) {
             Pengaju::create([
                 'user_id' => $user->id,
                 'name' => 'pengaju',

@@ -8,20 +8,18 @@ use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Models\Buku;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Nette\Utils\DateTime;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 
-// use Maatwebsite\Excel\Facades\Excel;
-// use App\Exports\BooksExport;
 
 class BukuController extends Controller
 {
     public function dashboard()
     {
-        // Ambil semua buku yang telah dipublish
-        $publishedBuku = Buku::where('is_published', true)->get();
+        $publishedBuku = Buku::where('status', 'accept')->get();
 
         return view('admin.buku.dashboard', compact('publishedBuku'));
     }
@@ -47,13 +45,12 @@ class BukuController extends Controller
     {
         $buku = Buku::all();
         $data['buku'] = $buku;
-        return view('admin.buku.index',$data);
+        return view('admin.buku.index', $data);
     }
     public function download()
     {
-        $buku = Buku::where('status','accepted')->get();
-        $data['buku'] = $buku;
-        return view('admin.buku.download',$data);
+        $data['buku'] = Buku::where('status', 'accept')->get();
+        return view('admin.buku.download', $data);
     }
     public function show($id)
     {
@@ -61,56 +58,82 @@ class BukuController extends Controller
         return view('admin.show', compact('book'));
     }
 
-    public function review($id){
-        $buku = Buku::find($id);
-        $data['buku'] = $buku;
-        return view('admin.buku.review',$data);
-    }
-        public function postreview(Request $request, $id)
+    public function review($id)
     {
         $buku = Buku::find($id);
-        $buku->status = $request->status;
-        $buku->admin_comments = $request->admin_comments;
-        $buku->save();
+        $data['buku'] = $buku;
+        return view('admin.buku.review', $data);
+    }
+
+    public function postreview(Request $request, $id)
+    {
+        try {
+            DB::beginTransaction();
+            $buku = Buku::find($id);
+            $buku->status = $request->status;
+            $buku->adminComment = $request->catatan;
+            $buku->save();
+            DB::commit();
+            return back()->with('success', 'Status Berhasil Diubah');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', $e->getMessage());
+        }
+
 
         return redirect('/Admin/buku')->with('status', 'Book reviewed successfully!');
     }
-    public function edit(Request $request, $id){
-        $buku = Buku::find($id);
-        $data['buku'] = $buku;
-        return view('admin.buku.edit',$data);
-    }
-    public function storeedit (Request $request, $id)
+
+    public function edit(Request $request, $id)
     {
-        $data1 = $request->all();
-        $buku = Buku::findOrFail($id);
-        $data['ISBN'] = $request->ISBN;
-        $buku->update($data1);
-        return redirect('/Admin/buku/download')->with('success', 'Data buku berhasil diperbarui.');
+        $data['buku'] = Buku::find($id);
+        return view('admin.buku.edit', $data);
     }
-    public function exportBukuUsers() 
+    public function storeedit(Request $request, $id)
+    {
+        try {
+            DB::beginTransaction();
+            $buku = Buku::find($id);
+            $buku->update([
+                'isbn' => $request->isbn,
+                'noProduk' => $request->noProduk,
+            ]);
+
+            DB::commit();
+            return redirect('/Admin/buku/download')->with('success', 'Berhasil menambahkan isbn dan no produk');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return back()->with('error', 'Error' . $e->getMessage());
+        }
+    }
+    public function exportBukuUsers()
     {
         return Excel::download(new UsersExport(), 'buku ajuan.xlsx');
     }
 
     public function Publish()
     {
-        // Ambil semua buku yang belum dipublish
-        $buku = Buku::where('is_published', false)->get();
-        
+        $buku = Buku::where('statusUpload', 'belum_upload')->get();
+
         return view('admin.buku.publish', compact('buku'));
     }
 
-    public function publishBuku(Buku $buku, $id)
+    public function publishBuku(Request $request, $id)
     {
-        // Temukan buku berdasarkan ID
-        $buku = Buku::find($id);
+        try {
+            DB::beginTransaction();
+            $buku = Buku::find($id);
+            $buku->update([
+                'publish' => $request->publish
+            ]);
+            DB::commit();
 
-        if ($buku) {
-            // Update status publikasi buku
-            $buku->is_published = true;
-            $buku->save();
+            return back()->with('succes', 'Data Buku Berhasil Di Publish');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return back()->with('error', 'error' . $e->getMessage());
         }
+
 
         // Redirect kembali ke halaman publish dengan pesan sukses
         return redirect()->route('Admin.Buku.Publish')->with('success', 'Buku berhasil dipublish!');
@@ -130,7 +153,7 @@ class BukuController extends Controller
         // dd($user);
         $superadmin = Admin::where('user_id', auth()->user()->id)->first();
 
-        $superadminParams = $request->only(['name', 'foto' ]);
+        $superadminParams = $request->only(['name', 'foto']);
         if ($request->has('foto')) {
             $superadminParams['foto'] = $this->simpanProfile($superadmin->user->role, $request->file('foto'), $superadminParams['name']);
         } else {
@@ -221,6 +244,4 @@ class BukuController extends Controller
         $filePath = $file->storeAs($folder, $fileName, 'public');
         return $filePath;
     }
-    
 }
- 
