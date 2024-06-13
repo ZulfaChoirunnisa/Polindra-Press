@@ -9,15 +9,10 @@ class Admin extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'user_id',
-        'name',
-        'foto',
-        'job',
-        'alamat',
-        'notlp',
-    ];
-    public function user(){
-        return $this->belongsTo('App\Models\User');
+    protected $guarded = [''];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

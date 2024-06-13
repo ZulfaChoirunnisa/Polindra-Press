@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Pengaju;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Pengaju;
+use App\Models\Admin;
 use App\Models\User;
 use DateTime;
 use Illuminate\Http\Request;
@@ -13,13 +13,13 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
-class PengajuProfileController extends Controller
+class AdminProfileController extends Controller
 {
-    public function profile()
+    public function profileadmin()
     {
-        $userId = Auth::user()->id;
-        $data['pengaju'] = Pengaju::where('user_id', $userId)->first();
-        return view('Pengaju.buku.profile', $data);
+        $adminId = Auth::user()->id;
+        $data['admin'] = Admin::where('id', $adminId)->first();
+        return view('Admin.buku.profileadmin', $data);
     }
 
     public function update(Request $request)
@@ -27,18 +27,18 @@ class PengajuProfileController extends Controller
         try {
             DB::beginTransaction();
             $user = User::where('id', Auth::user()->id)->first();
-            $pengaju = Pengaju::where('user_id', $user->id)->first();
+            $admin = Admin::where('user_id', $user->id)->first();
 
-            if ($user && $pengaju) {
-                $pengaju->name = $request->input('name');
+            if ($user && $admin) {
+                $admin->name = $request->input('name');
                 if ($request->hasFile('foto')) {
-                    $pengaju->foto = $this->simpanProfile('pengaju', $request->file('foto'), $user->id);
+                    $admin->foto = $this->simpanProfile('admin', $request->file('foto'), $user->id);
                 }
-                $pengaju->job = $request->input('job');
-                $pengaju->alamat = $request->input('alamat');
-                $pengaju->notlp = $request->input('notlp');
+                $admin->job = $request->input('job');
+                $admin->alamat = $request->input('alamat');
+                $admin->notlp = $request->input('notlp');
 
-                $pengaju->save();
+                $admin->save();
 
                 DB::commit();
                 return back()->with('success', 'Data Berhasil Diubah!');
@@ -73,7 +73,6 @@ class PengajuProfileController extends Controller
         $filePath = $file->storeAs($folder, $fileName, 'public');
         return $filePath;
     }
-
 
 
     public function reset(Request $request)

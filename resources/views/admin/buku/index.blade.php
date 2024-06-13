@@ -28,10 +28,9 @@
                                     <th>Dafpus</th>
                                     <th>Resensi</th>
                                     <th>Surat Keaslian</th>
-                                    <th>ISBN</th>
                                     <th>Tahun Terbit</th>
                                     <th>Status</th>
-                                    <th>Aksi</th>
+                                    <th class="text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -44,7 +43,6 @@
                                         <td><a href="{{ Storage::url($bukus->suratKeaslian) }}" target="_blank">Lihat
                                                 PDF</a>
                                         </td>
-                                        <td>{{ $bukus->isbn }}</td>
                                         <th>{{ $bukus->tahunTerbit }}</th>
                                         <td>
                                             @if ($bukus->status == 'pending')
@@ -58,10 +56,18 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                                data-bs-target="#verticalycentered{{ $bukus->id }}">
-                                                <i class="bx bxs-edit-alt"></i>
-                                            </button>
+                                            @if ($bukus->status == 'accept')
+                                                <p>Buku sudah Diberi NoProduk & ISBN</p>
+                                            @elseif ($bukus->status == 'revisi')
+                                                <p>Buku Sedang Direvisi oleh Pengaju</p>
+                                            @elseif ($bukus->status == 'tolak')
+                                                <p>Buku Ditolak</p>
+                                            @elseif ($bukus->status == 'pending')
+                                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                    data-bs-target="#verticalycentered{{ $bukus->id }}">
+                                                    <i class="bx bxs-edit-alt"></i>
+                                                </button>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
@@ -89,7 +95,7 @@
                                         <td class="text-right">Penulis</td>
                                         <td>:</td>
                                         <td>
-                                            {{ $show->penulis->username }}
+                                            {{ $show->penulis->nama }}
                                         </td>
                                     </tr>
                                     <tr>
@@ -146,14 +152,22 @@
                                         <td class="text-right">NoProduk</td>
                                         <td>:</td>
                                         <td>
-                                            {{ $show->noProduk }}
+                                            @if ($show->noProduk == null)
+                                                <p>belum tersedia</p>
+                                            @else
+                                                {{ $show->noProduk }}
+                                            @endif
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="text-right">ISBN</td>
                                         <td>:</td>
                                         <td>
-                                            {{ $show->isbn }}
+                                            @if ($show->isbn == null)
+                                                <p>belum tersedia</p>
+                                            @else
+                                                {{ $show->isbn }}
+                                            @endif
                                         </td>
                                     </tr>
                                     <tr>

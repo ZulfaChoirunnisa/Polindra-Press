@@ -45,13 +45,20 @@
                                         <td>{{ $bukus->tahunTerbit }}</td>
                                         <td>{{ $bukus->status }}</td>
                                         <td>
-                                            <a type="button" class="btn btn-warning"
-                                                href ="{{ route('Admin.Buku.Edit', $bukus->id) }}"><i
-                                                    class="bx bxs-edit-alt"></i></a>
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#verticalycentered{{ $bukus->id }}">
-                                                <i class="bbi bi-box-arrow-up"></i>
-                                            </button>
+                                            @if (!empty($bukus->isbn) && !empty($bukus->noProduk))
+                                                @if ($bukus->publish == 'is_publish')
+                                                    <p>buku sudah di publish</p>
+                                                @else
+                                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                        data-bs-target="#verticalycentered{{ $bukus->id }}">Terbitkan
+                                                        <i class="bbi bi-box-arrow-up"></i>
+                                                    </button>
+                                                @endif
+                                            @else
+                                                <a type="button" class="btn btn-warning"
+                                                    href ="{{ route('Admin.Buku.Edit', $bukus->id) }}"><i
+                                                        class="bx bxs-edit-alt"></i></a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

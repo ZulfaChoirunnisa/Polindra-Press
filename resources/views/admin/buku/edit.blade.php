@@ -69,8 +69,8 @@
                             </div>
                             <div class="col-md-12">
                                 <label for="lembarbelakang" class="form-label">File Lembar Belakang</label>
-                                <img src="{{ asset('storage/' . $buku->lembarbelakang) }}" class="rounded-circle"
-                                    style="max-width:10%">
+                                <img src="{{ Storage::url($buku->coverBukuBelakang) }}" class="img-fluid rounded-start"
+                                    style="width: 50px; height: 50px;">
                             </div>
                             <h5 class="card-title">Biodata Penulis</h5>
                             <div class="col-md-6">

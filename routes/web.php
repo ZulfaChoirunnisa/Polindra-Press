@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminProfileController;
 use Illuminate\Support\Facades\Route;
 // use Illmuinate\Support\Facedes\Auth;
 use App\Http\Controllers\Admin\BukuController;
+use App\Http\Controllers\AppController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Pengaju\BukuController as PengajuBukuController;
@@ -21,9 +23,9 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('layouts.landingpage.index');
-});
+Route::get('/', [AppController::class, 'home']);
+
+Route::get('/detailBuku/{id}', [AppController::class, 'detailBuku']);
 
 Route::get('/login', function () {
     return view('auth.login');
@@ -57,9 +59,10 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
         Route::get('export-users', [BukuController::class, 'exportBukuUsers'])->name('export.users');
         Route::get('Buku/Publish', [BukuController::class, 'Publish'])->name('Admin.Buku.Publish');
         Route::put('Buku/Publish/{id}', [BukuController::class, 'publishBuku'])->name('Admin.Buku.Publish.Post');
-        Route::get('buku/profileadmin', [BukuController::class, 'profileadmin'])->name('Admin.Buku.Profileadmin');
-        Route::put('buku/profileadmin/update', [BukuController::class, 'update'])->name('Admin.profileadmin.update');
-        Route::put('buku/profileadmin/reset-password', [BukuController::class, 'reset'])->name('Admin.profileadmin.reset');
+
+        Route::get('buku/profileadmin', [AdminProfileController::class, 'profileadmin'])->name('Admin.Buku.Profileadmin');
+        Route::put('buku/profileadmin/update', [AdminProfileController::class, 'update'])->name('Admin.profileadmin.update');
+        Route::put('buku/profileadmin/reset-password', [AdminProfileController::class, 'reset'])->name('Admin.profileadmin.reset');
     });
 });
 
