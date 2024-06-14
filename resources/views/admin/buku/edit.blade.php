@@ -63,14 +63,28 @@
                                     PDF</a>
                             </div>
                             <div class="col-md-12">
+                                <label for="Suratkeaslian" class="form-label">Draft Buku</label>
+                                <a href="{{ Storage::url($buku->draftBuku) }}" target="_blank">Lihat
+                                    PDF</a>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="Suratkeaslian" class="form-label">File Surat Keasliaan</label>
+                                <a href="{{ Storage::url($buku->suratKeaslian) }}" target="_blank">Lihat
+                                    PDF</a>
+                            </div>
+                            <div class="col-md-12">
                                 <label for="coverbuku" class="form-label">File Cover Buku</label>
-                                <img src="{{ Storage::url($buku->coverBuku) }}" class="img-fluid rounded-start"
-                                    style="width: 50px; height: 50px;">
+                                <a href="{{ Storage::url($buku->coverBuku) }}" download>
+                                    <img src="{{ Storage::url($buku->coverBuku) }}" class="img-fluid rounded-start"
+                                        style="width: 50px; height: 50px;">
+                                </a>
                             </div>
                             <div class="col-md-12">
                                 <label for="lembarbelakang" class="form-label">File Lembar Belakang</label>
-                                <img src="{{ Storage::url($buku->coverBukuBelakang) }}" class="img-fluid rounded-start"
-                                    style="width: 50px; height: 50px;">
+                                <a href="{{ Storage::url($buku->coverBukuBelakang) }}" download>
+                                    <img src="{{ Storage::url($buku->coverBukuBelakang) }}" class="img-fluid rounded-start"
+                                        style="width: 50px; height: 50px;">
+                                </a>
                             </div>
                             <h5 class="card-title">Biodata Penulis</h5>
                             <div class="col-md-6">

@@ -50,14 +50,14 @@
                                             @elseif ($bukus->status == 'accept')
                                                 <span class="badge bg-primary">Accepted</span>
                                             @elseif ($bukus->status == 'revisi')
-                                                <span class="badge bg-warnign">Revisi</span>
+                                                <span class="badge bg-warning">Revisi</span>
                                             @elseif ($bukus->status == 'tolak')
                                                 <span class="badge bg-danger">Tolak</span>
                                             @endif
                                         </td>
                                         <td>
                                             @if ($bukus->status == 'accept')
-                                                <p>Buku sudah Diberi NoProduk & ISBN</p>
+                                                <p>Buku dalam tahap pemberian ISBN dan noProduk</p>
                                             @elseif ($bukus->status == 'revisi')
                                                 <p>Buku Sedang Direvisi oleh Pengaju</p>
                                             @elseif ($bukus->status == 'tolak')

@@ -26,6 +26,7 @@
                                     </th>
                                     <th>Halaman</th>
                                     <th>Surat Keaslian</th>
+                                    <th>Draft Buku</th>
                                     <th>ISBN</th>
                                     <th>Tahun Terbit</th>
                                     <th>Status</th>
@@ -40,6 +41,10 @@
                                         <td>
                                             <a href="{{ Storage::url($bukus->suratKeaslian) }}" target="_blank">Lihat
                                                 PDF</a>
+                                        </td>
+                                        <td>
+                                            <a href="{{ Storage::url($bukus->draftBuku) }}" target="_blank">Lihat
+                                                Draft Buku PDF</a>
                                         </td>
                                         <td>{{ $bukus->isbn }}</td>
                                         <td>{{ $bukus->tahunTerbit }}</td>

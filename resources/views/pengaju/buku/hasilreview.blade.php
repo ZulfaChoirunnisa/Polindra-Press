@@ -29,6 +29,7 @@
                                     <th>Dafpus</th>
                                     <th>Resensi</th>
                                     <th>Surat Keaslian</th>
+                                    <th>Draft Buku</th>
                                     <th>Cover Buku</th>
                                     <th>Tahun Terbit</th>
                                     <th>Status</th>
@@ -45,6 +46,9 @@
                                         <td>{{ $bukus->daftarPustaka }}</td>
                                         <td>{{ $bukus->resensi }}</td>
                                         <td><a href="{{ Storage::url($bukus->suratKeaslian) }}" target="_blank">Lihat
+                                                PDF</a>
+                                        </td>
+                                        <td><a href="{{ Storage::url($bukus->draftBuku) }}" target="_blank">Lihat
                                                 PDF</a>
                                         </td>
                                         <td><img src="{{ Storage::url($bukus->coverBuku) }}" class="rounded-circle"

@@ -60,6 +60,11 @@
                                 <input type="file" class="form-control" id="suratKeaslian" name="suratKeaslian"
                                     accept=".pdf" required>
                             </div>
+                            <div class="col-md-12">
+                                <label for="suratkeaslian" class="form-label">Draft Buku</label>
+                                <input type="file" class="form-control" id="draftBuku" name="draftBuku" accept=".pdf"
+                                    required>
+                            </div>
                             <h5 class="card-title">Biodata Penulis</h5>
                             <div class="col-md-6">
                                 <label for="nama" class="form-label">Masukan Nama Penulis</label>
@@ -67,7 +72,8 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="noTeleponPenulis" class="form-label">Masukan No Telefon</label>
-                                <input type="text" class="form-control" id="NoTelepon" name="noTeleponPenulis" required>
+                                <input type="text" class="form-control" id="NoTelepon" name="noTeleponPenulis"
+                                    required>
                             </div>
                             <div class="col-md-6">
                                 <label for="alamatPenulis" class="form-label">Masukan Alamat</label>

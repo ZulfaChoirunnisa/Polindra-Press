@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('suratKeaslian');
             $table->string('coverBuku');
             $table->string('coverBukuBelakang');
+            $table->string('draftBuku');
             $table->string('tahunTerbit');
             $table->string('harga');
             $table->string('noProduk')->nullable();

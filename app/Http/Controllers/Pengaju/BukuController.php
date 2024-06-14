@@ -40,6 +40,7 @@ class BukuController extends Controller
             $coverBelakangPath = $this->simpanImage('coverBelakang', $request->file('coverBukuBelakang')); // Path untuk cover belakang
 
             $suratPath = $this->simpanPDF('surat', $request->file('suratKeaslian'));
+            $draftBukuPath = $this->simpanPDF('draftBuku', $request->file('draftBuku'));
 
             Buku::create([
                 'pengaju_id' => Auth::user()->id,
@@ -48,6 +49,7 @@ class BukuController extends Controller
                 'jumlahHalaman' => $request['jumlahHalaman'],
                 'daftarPustaka' => $request['daftarPustaka'],
                 'resensi' => $request['resensi'],
+                'draftBuku' => $draftBukuPath,
                 'suratKeaslian' => $suratPath,
                 'coverBuku' => $coverPath,
                 'coverBukuBelakang' => $coverBelakangPath, // Simpan path untuk cover buku belakang
@@ -67,21 +69,21 @@ class BukuController extends Controller
         }
     }
 
-
     private function simpanPDF($type, $file)
     {
         $dt = new DateTime();
-        $path = storage_path('app/public/uploads/surat/' . $type . '/' . $dt->format('Y-m-d'));
+        $path = storage_path('app/public/uploads/' . $type . '/' . $dt->format('Y-m-d'));
 
         if (!File::isDirectory($path)) {
             File::makeDirectory($path, 0755, true, true);
         }
 
-        $name =  $type . '_' . $dt->format('Y-m-d');
+        $name = $type . '_' . $dt->format('Y-m-d');
         $fileName = $name . '.' . $file->getClientOriginalExtension();
-        $filePath = $file->storeAs('public/uploads/surat/' . $type . '/' . $dt->format('Y-m-d'), $fileName);
+        $filePath = $file->storeAs('public/uploads/' . $type . '/' . $dt->format('Y-m-d'), $fileName);
         return $filePath;
     }
+
 
     private function simpanImage($type, $file)
     {
@@ -113,5 +115,5 @@ class BukuController extends Controller
     // }
 
 
-   
+
 }
