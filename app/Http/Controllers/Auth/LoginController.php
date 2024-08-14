@@ -40,7 +40,7 @@ class LoginController extends Controller
     }
     public function showLoginForm()
     {
-        return view('auth.login');
+;        return view('auth.login');
     }
     public function login(Request $request)
     {
@@ -53,12 +53,10 @@ class LoginController extends Controller
             ],
         ]);
 
-        if (auth()->attempt(array('username' => $input['username'], 'password' => $input['password']))) {
-
-            return redirect()->route('home')->with('success', 'Login Berhasil' . Auth::user()->name . 'Selamat Datang');
+        if (auth()->attempt(['username' => $input['username'], 'password' => $input['password']]) || auth()->attempt(['email' => $input['username'], 'password' => $input['password']])) {
+            return redirect()->route('home')->with('success', 'Login Berhasil, ' . auth()->user()->name . ' Selamat Datang');
         } else {
-            return redirect()->route('login')
-                ->withErrors('username atau Password Salah.');
+            return redirect()->route('login')->withErrors('Username atau Password Salah.');
         }
     }
 }

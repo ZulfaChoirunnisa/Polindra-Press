@@ -16,7 +16,7 @@ class HasilReviewController extends Controller
 {
     public function index()
     {
-        $data['buku'] = Buku::where('pengaju_id', Auth::user()->id)->get();
+        $data['buku'] = Buku::where('pengaju_id', Auth::user()->pengaju->id)->get();
         return view('pengaju.buku.hasilreview', $data);
     }
     public function editreview($id)

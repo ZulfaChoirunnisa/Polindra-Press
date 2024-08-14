@@ -20,14 +20,13 @@ class RedirectIfAuthenticated
      */
     public function handle(Request $request, Closure $next, ...$guards)
         {
-        $guards = empty($guards) ? [null] : $guards;
-
-        foreach ($guards as $guard) {
-            if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+            if (Auth::guard($guards)->check()) {
+                if (Auth::user()->role == 'pengaju') {
+                    return redirect("/Pengaju/buku/create");
+                }else if (Auth::user()->role == 'admin') {
+                    return redirect("/Admin/buku/dashboard");
+                }
             }
-        }
-
-        return $next($request);
+            return $next($request);
     }
 }

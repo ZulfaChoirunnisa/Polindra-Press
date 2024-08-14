@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('pengajus', function (Blueprint $table) {
-            $table->id();
+            $table->id('id');
             $table->unsignedBigInteger('user_id');
             $table->string('name');
             $table->string('foto')->nullable();

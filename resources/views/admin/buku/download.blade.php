@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-lg-12">
 
-                <div class="card">
+                <div class="card overflow-auto">
                     <div class="card-body">
                         <h5 class="card-title">Data tables</h5>
                         <p>Berikut adalah tabel data buku yang sudah lolos review.</p>
@@ -21,36 +21,44 @@
                         <table class="table datatable">
                             <thead>
                                 <tr>
+                                <th>No</th>
                                     <th>
                                         <b>J</b>udul
                                     </th>
-                                    <th>Halaman</th>
+                                    <th>Jumlah Halman</th>
+                                    <th>Daftar Pustaka</th>
+                                    <th>Resensi</th>
                                     <th>Surat Keaslian</th>
                                     <th>Draft Buku</th>
-                                    <th>ISBN</th>
+                                    <th>Cover Buku</th>
                                     <th>Tahun Terbit</th>
+                                    <th>ISBN</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($buku as $bukus)
+                            @foreach ($buku as $bukus)
                                     <tr>
+                                        <td>{{ $loop->iteration }}</td>
                                         <td>{{ $bukus->judul }}</td>
                                         <td>{{ $bukus->jumlahHalaman }}</td>
-                                        <td>
-                                            <a href="{{ Storage::url($bukus->suratKeaslian) }}" target="_blank">Lihat
+                                        <td>{{ $bukus->daftarPustaka }}</td>
+                                        <td>{{ $bukus->resensi }}</td>
+                                        <td><a href="{{ Storage::url($bukus->suratKeaslian) }}" target="_blank">Lihat
                                                 PDF</a>
                                         </td>
-                                        <td>
-                                            <a href="{{ Storage::url($bukus->draftBuku) }}" target="_blank">Lihat
-                                                Draft Buku PDF</a>
+                                        <td><a href="{{ Storage::url($bukus->draftBuku) }}" target="_blank">Lihat
+                                                PDF</a>
                                         </td>
+                                        <td><img src="{{ Storage::url($bukus->coverBuku) }}" class="rounded-circle"
+                                                style="width: 50px; height: 50px;"></td>
+                                        <th>{{ $bukus->tahunTerbit }}</th>
                                         <td>{{ $bukus->isbn }}</td>
-                                        <td>{{ $bukus->tahunTerbit }}</td>
                                         <td>{{ $bukus->status }}</td>
                                         <td>
-                                            @if (!empty($bukus->isbn) && !empty($bukus->noProduk))
+                                        <td>
+                                        @if (!empty($bukus->isbn) && !empty($bukus->noProduk))
                                                 @if ($bukus->publish == 'is_publish')
                                                     <p>buku sudah di publish</p>
                                                 @else
@@ -63,7 +71,7 @@
                                                 <a type="button" class="btn btn-warning"
                                                     href ="{{ route('Admin.Buku.Edit', $bukus->id) }}"><i
                                                         class="bx bxs-edit-alt"></i></a>
-                                            @endif
+                                        @endif
                                         </td>
                                     </tr>
                                 @endforeach
@@ -87,7 +95,7 @@
                         @csrf
                         @method('PUT')
                         <div class="modal-header">
-                            <h5 class="modal-title">Vertically Centered</h5>
+                            <h5 class="modal-title">Detail Buku</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -111,20 +119,27 @@
                                         <td class="text-right">Daftar Pustaka</td>
                                         <td>:</td>
                                         <td>
-                                            {{ $show->daftarPustaka }}
+                                            {{limit_sentences($show->daftarPustaka, 20)}}
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="text-right">Resensi</td>
                                         <td>:</td>
                                         <td>
-                                            {{ $show->resensi }}
+                                            {{limit_sentences ($show->resensi, 10) }}
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="text-right">Surat Keaslian</td>
                                         <td>:</td>
                                         <td><a href="{{ Storage::url($show->suratKeaslian) }}" target="_blank">Lihat
+                                                PDF</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right">Draft Buku</td>
+                                        <td>:</td>
+                                        <td><a href="{{ Storage::url($show->draftBuku) }}" target="_blank">Lihat
                                                 PDF</a>
                                         </td>
                                     </tr>
@@ -171,7 +186,7 @@
                                             @if ($show->status == 'pending')
                                                 <span class="badge bg-info">Pending</span>
                                             @elseif ($show->status == 'accept')
-                                                <span class="badge bg-primary">Accepted</span>
+                                                <span class="badge bg-primary">Terima</span>
                                             @elseif ($show->status == 'revisi')
                                                 <span class="badge bg-warnign">Revisi</span>
                                             @elseif ($show->status == 'tolak')

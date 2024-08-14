@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-lg-12">
 
-                <div class="card">
+                <div class="card overflow-auto">
                     <div class="card-body">
                         <h5 class="card-title">Data tables</h5>
                         <p>Berikut adalah tabel data pengajuan penerbitan buku, klik detail untuk review data ajuan.</p>
@@ -21,28 +21,37 @@
                         <table class="table datatable">
                             <thead>
                                 <tr>
+                                <th>No</th>
                                     <th>
                                         <b>J</b>udul
                                     </th>
-                                    <th>Halaman</th>
-                                    <th>Dafpus</th>
+                                    <th>Jumlah Halman</th>
+                                    <th>Daftar Pustaka</th>
                                     <th>Resensi</th>
                                     <th>Surat Keaslian</th>
+                                    <th>Draft Buku</th>
+                                    <th>Cover Buku</th>
                                     <th>Tahun Terbit</th>
                                     <th>Status</th>
-                                    <th class="text-center">Aksi</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($buku as $bukus)
                                     <tr>
+                                        <td>{{ $loop->iteration }}</td>
                                         <td>{{ $bukus->judul }}</td>
                                         <td>{{ $bukus->jumlahHalaman }}</td>
-                                        <td>{{ $bukus->daftarPustaka }}</td>
-                                        <td>{{ $bukus->resensi }}</td>
+                                        <td>{{ limit_sentences($bukus->daftarPustaka, 20) }}</td>
+                                        <td>{{ limit_sentences($bukus->resensi, 10) }}</td>
                                         <td><a href="{{ Storage::url($bukus->suratKeaslian) }}" target="_blank">Lihat
                                                 PDF</a>
                                         </td>
+                                        <td><a href="{{ Storage::url($bukus->draftBuku) }}" target="_blank">Lihat
+                                                PDF</a>
+                                        </td>
+                                        <td><img src="{{ Storage::url($bukus->coverBuku) }}" class="rounded-circle"
+                                                style="width: 50px; height: 50px;"></td>
                                         <th>{{ $bukus->tahunTerbit }}</th>
                                         <td>
                                             @if ($bukus->status == 'pending')
@@ -85,7 +94,7 @@
                     <form action="{{ url('Admin/buku/review/' . $show->id) }}" method="POST">
                         @csrf
                         <div class="modal-header">
-                            <h5 class="modal-title">Vertically Centered</h5>
+                            <h5 class="modal-title">Detail Ajuan</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -127,6 +136,13 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td class="text-right">Draft Buku</td>
+                                        <td>:</td>
+                                        <td><a href="{{ Storage::url($show->draftBuku) }}" target="_blank">Lihat
+                                                PDF</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td class="text-right">Cover Buku</td>
                                         <td>:</td>
                                         <td>
@@ -141,13 +157,13 @@
                                             {{ $show->tahunTerbit }}
                                         </td>
                                     </tr>
-                                    <tr>
+                                    <!-- <tr>
                                         <td class="text-right">Harga</td>
                                         <td>:</td>
                                         <td>
                                             {{ $show->harga }}
                                         </td>
-                                    </tr>
+                                    </tr> -->
                                     <tr>
                                         <td class="text-right">NoProduk</td>
                                         <td>:</td>
@@ -177,7 +193,7 @@
                                             @if ($show->status == 'pending')
                                                 <span class="badge bg-info">Pending</span>
                                             @elseif ($show->status == 'accept')
-                                                <span class="badge bg-primary">Accepted</span>
+                                                <span class="badge bg-primary">Terima</span>
                                             @elseif ($show->status == 'revisi')
                                                 <span class="badge bg-warnign">Revisi</span>
                                             @elseif ($show->status == 'tolak')

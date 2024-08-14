@@ -37,38 +37,42 @@
                   <input type="text" class="form-control" id="Resensi" name="Resensi" value="{{$buku->Resensi}}" required>
                 </div> 
                 <div class="col-md-12">
-                  <label for="tahunterbit" class="form-label">Tambahkan Tahun Terbit</label>
+                  <label for="tahunterbit" class="form-label">Tahun Terbit</label>
                   <input type="text" class="form-control" id="tahunterbit" name="tahunterbit" value="{{$buku->tahunterbit}}">
                 </div> 
+                <!-- <div class="col-md-12">
+                  <label for="harga" class="form-label">Harga</label>
+                  <input type="text" class="form-control" id="harga" name="harga" value="{{$buku->harga}}">
+                </div>  -->
                 <div class="col-md-12">
-                  <label for="harga" class="form-label">Masukan Harga</label>
-                  <input type="text" class="form-control" id="harga" name="harga" value="{{$buku->harga}}>
+                  <label for="coverbuku" class="form-label">File Cover Buku Depan</label>
+                  <img src="{{ asset('storage/'.$buku->coverbuku) }}" class="rounded-circle" style="max-width:10%">
+                  <!-- <input type="file" class="form-control" id="coverbuku" name="coverbuku" value="{{$buku->coverbuku}}" > -->
+                </div> 
+                <div class="col-md-12">
+                  <label for="coverbuku" class="form-label">File Cover Buku Belakang</label>
+                  <img src="{{ asset('storage/'.$buku->coverBukuBelakang) }}" class="rounded-circle" style="max-width:10%">
+                  <!-- <input type="file" class="form-control" id="coverbuku" name="coverbuku" value="{{$buku->coverbuku}}" > -->
                 </div> 
                 <div class="col-md-12">
                   <label for="suratkeaslian" class="form-label">File Surat Keasliaan : </label>
                   <img src="{{ asset('storage/'.$buku->suratkeaslian) }}" class="rounded-circle" style="max-width:10%">
                 </div> 
                 <div class="col-md-12">
-                  <label for="coverbuku" class="form-label">File Cover Buku</label>
-                  <img src="{{ asset('storage/'.$buku->coverbuku) }}" class="rounded-circle" style="max-width:10%">
-                  <!-- <input type="file" class="form-control" id="coverbuku" name="coverbuku" value="{{$buku->coverbuku}}" > -->
-                </div> 
-                <div class="col-md-12">
-                  <label for="lembarbelakang" class="form-label">File Lembar Belakang</label>
-                  <img src="{{ asset('storage/'.$buku->lembarbelakang) }}" class="rounded-circle" style="max-width:10%">
-                  <!-- <input type="file" class="form-control" id="lembarbelakang" name="lembarbelakang" value="{{$buku->lembarbelakang}}" > -->
+                  <label for="draftBuku" class="form-label">File Surat Keasliaan : </label>
+                  <img src="{{ asset('storage/'.$buku->draftBuku) }}" class="rounded-circle" style="max-width:10%">
                 </div> 
                 <h5 class="card-title">Biodata Penulis</h5>
                 <div class="col-md-6">
-                  <label for="NAMA" class="form-label">Masukan Nama Penulis</label>
-                  <input type="text" class="form-control" id="NAMA" name="NAMA" value="{{caripenulis($buku->id)->NAMA}}"required>
+                  <label for="nama" class="form-label">Nama Penulis</label>
+                  <input type="text" class="form-control" id="namaPenulis" name="namaPenulis" value="{{caripenulis($buku->id)->NAMA}}"required>
                 </div> 
                 <div class="col-md-6">
-                  <label for="NoTelepon" class="form-label">No Telefon</label>
+                  <label for="noTeleponPenulis" class="form-label">No Telefon</label>
                   <input type="text" class="form-control" id="NoTelepon" name="NoTelepon" value="{{caripenulis($buku->id)->NoTelepon}}" required>
                 </div> 
                 <div class="col-md-6">
-                  <label for="Alamat" class="form-label">Alamat</label>
+                  <label for="alamatPenulis" class="form-label">Alamat</label>
                   <input type="text" class="form-control" id="Alamat" name="Alamat" value="{{caripenulis($buku->id)->Alamat}}" required>
                 </div> 
                 <h5 class="card-title">Review Anda</h5>
@@ -80,7 +84,7 @@
                   <!-- <input type="checkbox" id="acceptCheckbox" name="acceptCheckbox" value="accepted"> -->
                   <label for="acceptCheckbox">Status</label>
                   <select name="status" id="status">
-                    <option value="accepted">Terima</option>
+                    <option value="accept">Terima</option>
                     <option value="revisi">Revisi</option>
                     <option value="rejected">Tolak</option>
                   </select>

@@ -40,12 +40,13 @@
                                 <input type="text" class="form-control" value="{{ $buku->resensi }}" disabled>
                             </div>
                             <div class="col-md-12">
-                                <label for="tahunterbit" class="form-label">Tambahkan Tahun Terbit</label>
+                                <label for="tahunterbit" class="form-label">Tahun Terbit</label>
                                 <input type="text" class="form-control" value="{{ $buku->tahunTerbit }}" disabled>
                             </div>
                             <div class="col-md-12">
                                 <label for="harga" class="form-label">Tambahkan Harga</label>
-                                <input type="text" class="form-control" value="{{ $buku->harga }}" disabled>
+                                <input type="text" class="form-control" name="harga" 
+                                    value="{{ $buku->harga }}">
                             </div>
                             <div class="col-md-12">
                                 <label for="ISBN" class="form-label">Tambahkan ISBN</label>
@@ -65,11 +66,6 @@
                             <div class="col-md-12">
                                 <label for="Suratkeaslian" class="form-label">Draft Buku</label>
                                 <a href="{{ Storage::url($buku->draftBuku) }}" target="_blank">Lihat
-                                    PDF</a>
-                            </div>
-                            <div class="col-md-12">
-                                <label for="Suratkeaslian" class="form-label">File Surat Keasliaan</label>
-                                <a href="{{ Storage::url($buku->suratKeaslian) }}" target="_blank">Lihat
                                     PDF</a>
                             </div>
                             <div class="col-md-12">

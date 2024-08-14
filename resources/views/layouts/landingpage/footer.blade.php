@@ -31,9 +31,9 @@
                     <p>
                         Jl. Raya Lohbener Lama No. 08<br>
                         Indramayu 45252<br>
-                        United States <br><br>
-                        <strong>Phone:</strong> (0234) 5746464 <br>
-                        <strong>Email:</strong> info@polindra.ac.id<br>
+                        Indonesia <br><br>
+                        <strong>Phone:</strong> +62 82252351548 <br>
+                        <strong>Email:</strong> perpustakaan.polindra@gmail.com<br>
                     </p>
 
                 </div>

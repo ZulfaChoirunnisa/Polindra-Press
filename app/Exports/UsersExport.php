@@ -4,48 +4,56 @@ namespace App\Exports;
 
 use App\Models\Buku;
 use App\Models\Penulis;
-use App\Models\User;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-use Illuminate\Support\Collection;
 
-
-class UsersExport implements FromCollection,  WithHeadings, WithMapping, WithStyles, ShouldAutoSize
+class UsersExport implements FromCollection, WithHeadings, WithMapping, WithStyles, ShouldAutoSize
 {
-    private $buku;
+    private $bukus;
     private $penulis;
 
     public function __construct()
     {
-        $this->buku = Buku::where('status', 'accepted')->get();
+        $this->bukus = Buku::where('status', 'accept')->get();
         $this->penulis = Penulis::all();
     }
+
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
-        return $this->buku->concat($this->penulis);
+        // Combine both Buku and Penulis into one collection
+        $combined = $this->bukus->map(function($buku) {
+            $penulis = $this->penulis->firstWhere('id', $buku->penulis_id);
+            return ['buku' => $buku, 'penulis' => $penulis];
+        });
+
+        return $combined;
     }
 
     public function headings(): array
     {
         return [
-            'penulis_id',
-            'Judul',
-            'JumlahHalaman',
-            'DaftarPustaka', 
-            'Resensi',
-            'suratkeaslian',
-            'ISBN',
-            'NAMA',
-            'NoTelepon',
-            'Alamat',
-            'NIP',
+            'judul',
+            'jumlahHalaman',
+            'daftarPustaka', 
+            'resensi',
+            'suratKeaslian',
+            'coverBuku',
+            'coverBukuBelakang',
+            'draftBuku',
+            'tahunTerbit',
+            'harga',
+            'noProduk',
+            'isbn',
+            'nama',
+            'noTelepon',
+            'alamat',
         ];
     }
 
@@ -57,22 +65,26 @@ class UsersExport implements FromCollection,  WithHeadings, WithMapping, WithSty
      */
     public function map($row): array
     {
-        if ($row instanceof Buku) {
-            return [
-                $row->penulis_id,
-                $row->Judul,
-                $row->JumlahHalaman,
-                $row->DaftarPustaka,
-                $row->Resensi,
-                $row->suratkeaslian,
-                $row->ISBN,
-                $row->penulis->NAMA,
-                $row->penulis->NoTelepon,
-                $row->penulis->Alamat,
-                $row->penulis->NIP,
-            ];
-        }
-        return [];
+        $buku = $row['buku'];
+        $penulis = $row['penulis'];
+
+        return [
+            $buku->judul,
+            $buku->jumlahHalaman,
+            $buku->daftarPustaka,
+            $buku->resensi,
+            $buku->suratKeaslian,
+            $buku->coverBuku,
+            $buku->coverBukuBelakang,
+            $buku->draftBuku,
+            $buku->tahunTerbit,
+            $buku->harga,
+            $buku->noProduk,
+            $buku->isbn,
+            $penulis ? $penulis->nama : '',
+            $penulis ? $penulis->noTelepon : '',
+            $penulis ? $penulis->alamat : '',
+        ];
     }
 
     /**

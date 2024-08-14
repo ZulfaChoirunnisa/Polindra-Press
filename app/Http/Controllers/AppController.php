@@ -17,5 +17,5 @@ class AppController extends Controller
     {
         $data['detailBuku'] = Buku::find($id);
         return view('layouts.landingpage.detail_buku', $data);
-    }
+    } 
 }

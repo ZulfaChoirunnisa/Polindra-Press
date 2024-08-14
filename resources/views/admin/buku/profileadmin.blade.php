@@ -41,7 +41,7 @@
 
                             <li class="nav-item">
                                 <button class="nav-link active" data-bs-toggle="tab"
-                                    data-bs-target="#profile-overview">Overview</button>
+                                    data-bs-target="#profile-overview">Lihat Profile</button>
                             </li>
 
                             <li class="nav-item">
@@ -51,7 +51,7 @@
 
                             <li class="nav-item">
                                 <button class="nav-link" data-bs-toggle="tab"
-                                    data-bs-target="#profile-change-password">Change Password</button>
+                                    data-bs-target="#profile-change-password">Ubah Password</button>
                             </li>
 
                         </ul>
@@ -59,9 +59,9 @@
                             <div class="tab-pane fade show active profile-overview" id="profile-overview">
                                 <h5 class="card-title">About</h5>
                                 <p class="small fst-italic">Berikut adalah Profile anda</p>
-                                <h5 class="card-title">Profile Details</h5>
+                                <h5 class="card-title">Detail Profile</h5>
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">Full Name</div>
+                                    <div class="col-lg-3 col-md-4 label">Nama</div>
                                     <div class="col-lg-9 col-md-8">
                                         @if (!empty($admin->name))
                                             {{ $admin->name }}
@@ -72,7 +72,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">Job</div>
+                                    <div class="col-lg-3 col-md-4 label">Pekerjaan</div>
                                     <div class="col-lg-9 col-md-8">
                                         @if (!empty($admin->job))
                                             {{ $admin->job }}
@@ -83,7 +83,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">Address</div>
+                                    <div class="col-lg-3 col-md-4 label">Alamat</div>
                                     <div class="col-lg-9 col-md-8">
                                         @if (!empty($admin->alamat))
                                             {{ $admin->alamat }}
@@ -94,7 +94,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">Phone</div>
+                                    <div class="col-lg-3 col-md-4 label">Nomer Telepon</div>
                                     <div class="col-lg-9 col-md-8">
                                         @if (!empty($admin->notlp))
                                             {{ $admin->notlp }}
@@ -125,8 +125,8 @@
                                     @csrf
                                     @method('PUT')
                                     <div class="row mb-3">
-                                        <label for="simpanProfile" class="col-md-4 col-lg-3 col-form-label">Profile
-                                            Image</label>
+                                        <label for="simpanProfile" class="col-md-4 col-lg-3 col-form-label">Foto
+                                            Profile</label>
                                         <div class="col-md-8 col-lg-9">
 
                                             <div class="pt-2">
@@ -136,7 +136,7 @@
                                     </div>
 
                                     <div class="row mb-3">
-                                        <label for="name" class="col-md-4 col-lg-3 col-form-label">Name</label>
+                                        <label for="name" class="col-md-4 col-lg-3 col-form-label">Nama</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="name" type="text" class="form-control" id="name"
                                                 value="{{ $admin->name }}">
@@ -144,7 +144,7 @@
                                     </div>
 
                                     <div class="row mb-3">
-                                        <label for="job" class="col-md-4 col-lg-3 col-form-label">Job</label>
+                                        <label for="job" class="col-md-4 col-lg-3 col-form-label">Pekerjaan</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="job" type="text" class="form-control" id="job"
                                                 value="{{ $admin->job }}">
@@ -152,7 +152,7 @@
                                     </div>
 
                                     <div class="row mb-3">
-                                        <label for="alamat" class="col-md-4 col-lg-3 col-form-label">Address</label>
+                                        <label for="alamat" class="col-md-4 col-lg-3 col-form-label">Alamat</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="alamat" type="text" class="form-control" id="alamat"
                                                 value="{{ $admin->alamat }}">
@@ -160,7 +160,7 @@
                                     </div>
 
                                     <div class="row mb-3">
-                                        <label for="notlp" class="col-md-4 col-lg-3 col-form-label">Phone</label>
+                                        <label for="notlp" class="col-md-4 col-lg-3 col-form-label">Nomer Telepon</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="notlp" type="text" class="form-control" id="notlp"
                                                 value="{{ $admin->notlp }}">
@@ -174,7 +174,7 @@
                                         </div>
                                     </div>
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                        <button type="submit" class="btn btn-primary">simpan</button>
                                     </div>
                                 </form><!-- End Profile Edit Form -->
                             </div>
@@ -184,8 +184,8 @@
                                     @csrf
                                     @method('PUT')
                                     <div class="row mb-3">
-                                        <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current
-                                            Password</label>
+                                        <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Password
+                                            Sebelumnya</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="current_password" type="password" class="form-control"
                                                 id="currentPassword">
@@ -193,8 +193,8 @@
                                     </div>
 
                                     <div class="row mb-3">
-                                        <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New
-                                            Password</label>
+                                        <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Password
+                                            Baru</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="new_password" type="password" class="form-control"
                                                 id="newPassword">
@@ -202,8 +202,8 @@
                                     </div>
 
                                     <div class="row mb-3">
-                                        <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New
-                                            Password</label>
+                                        <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Konfirmasi Password
+                                            Baru</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="password_confirmation" type="password" class="form-control"
                                                 id="renewPassword">
@@ -211,7 +211,7 @@
                                     </div>
 
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-primary">Change Password</button>
+                                        <button type="submit" class="btn btn-primary">Ganti Password</button>
                                     </div>
                                 </form><!-- End Change Password Form -->
 

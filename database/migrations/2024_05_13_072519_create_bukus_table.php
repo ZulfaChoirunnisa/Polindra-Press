@@ -19,14 +19,14 @@ return new class extends Migration
             $table->unsignedBigInteger('pengaju_id');
             $table->string('judul');
             $table->string('jumlahHalaman');
-            $table->string('daftarPustaka');
-            $table->string('resensi');
+            $table->text('daftarPustaka');
+            $table->text('resensi');
             $table->string('suratKeaslian');
             $table->string('coverBuku');
             $table->string('coverBukuBelakang');
             $table->string('draftBuku');
             $table->string('tahunTerbit');
-            $table->string('harga');
+            $table->string('harga')->nullable();
             $table->string('noProduk')->nullable();
             $table->string('isbn')->nullable();
             $table->enum('status', ['pending', 'accept', 'revisi', 'tolak'])->default('pending');

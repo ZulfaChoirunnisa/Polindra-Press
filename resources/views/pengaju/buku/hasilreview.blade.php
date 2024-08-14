@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-lg-12">
 
-                <div class="card">
+                <div class="card overflow-auto">
                     <div class="card-body">
                         <h5 class="card-title">Data tables</h5>
                         <p>Berikut adalah tabel data pengajuan penerbitan buku yang anda kirim, klik edit untuk revisi.</p>
@@ -26,7 +26,7 @@
                                         <b>J</b>udul
                                     </th>
                                     <th>Jumlah Halman</th>
-                                    <th>Dafpus</th>
+                                    <th>Daftar Pustka</th>
                                     <th>Resensi</th>
                                     <th>Surat Keaslian</th>
                                     <th>Draft Buku</th>
@@ -43,8 +43,9 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $bukus->judul }}</td>
                                         <td>{{ $bukus->jumlahHalaman }}</td>
-                                        <td>{{ $bukus->daftarPustaka }}</td>
-                                        <td>{{ $bukus->resensi }}</td>
+                                        <td>{{ limit_sentences($bukus->daftarPustaka, 20) }}</td>
+                                        <td>{{ limit_sentences($bukus->resensi, 10) }}</td>
+
                                         <td><a href="{{ Storage::url($bukus->suratKeaslian) }}" target="_blank">Lihat
                                                 PDF</a>
                                         </td>
@@ -58,7 +59,7 @@
                                             @if ($bukus->status == 'pending')
                                                 <span class="badge bg-info">Pending</span>
                                             @elseif ($bukus->status == 'accept')
-                                                <span class="badge bg-primary">Accepted</span>
+                                                <span class="badge bg-primary">Disetujui</span>
                                             @elseif ($bukus->status == 'revisi')
                                                 <span class="badge bg-warning">Revisi</span>
                                             @elseif ($bukus->status == 'tolak')

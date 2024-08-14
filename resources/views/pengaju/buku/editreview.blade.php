@@ -41,17 +41,17 @@
                                     value="{{ $buku->resensi }}" required>
                             </div>
                             <div class="col-md-12">
-                                <label for="tahunTerbit" class="form-label">Masukan Tahun Terbit</label>
+                                <label for="tahunTerbit" class="form-label">Tahun Terbit</label>
                                 <input type="text" class="form-control" id="tahunTerbit" name="tahunTerbit"
                                     value="{{ $buku->tahunTerbit }}" required>
                             </div>
-                            <div class="col-md-12">
-                                <label for="harga" class="form-label">Masukan Harga</label>
+                            <!-- <div class="col-md-12">
+                                <label for="harga" class="form-label">Harga</label>
                                 <input type="text" class="form-control" id="harga" name="harga"
                                     value="{{ $buku->harga }}">
-                            </div>
+                            </div> -->
                             <div class="col-md-12">
-                                <label for="suratKeaslian" class="form-label">Masukan Surat Keasliaan File pdf</label>
+                                <label for="suratKeaslian" class="form-label">Surat Keasliaan File pdf</label>
                                 <input type="file" accept=".pdf" class="form-control" id="suratKeaslian"
                                     name="suratKeaslian">
                                 <label for="suratkeaslian" class="form-label">Surat Keaslian Lama</label>
@@ -59,24 +59,32 @@
                                     PDF</a>
                             </div>
                             <div class="col-md-12">
-                                <label for="coverbuku" class="form-label">Masukan Cover Buku File image</label>
+                                <label for="draftBuku" class="form-label">Surat Draft Buku File pdf</label>
+                                <input type="file" accept=".pdf" class="form-control" id="draftBuku"
+                                    name="draftBuku">
+                                <label for="draftBuku" class="form-label">Draft Buku Lama</label>
+                                <a href="{{ Storage::url($buku->draftBuku) }}" target="_blank">Lihat
+                                    PDF</a>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="coverbuku" class="form-label">Cover Buku File image</label>
                                 <input type="file" accept=".jpg, .jpeg, .png" class="form-control" id="coverBuku"
                                     name="coverBuku">
-                                <label for="coverbuku" class="form-label mt-4">Masukan Cover Buku Depan Lama</label>
+                                <label for="coverbuku" class="form-label mt-4">Cover Buku Depan Lama</label>
                                 <img src="{{ Storage::url($buku->coverBuku) }}" class="img-fluid rounded-start"
                                     style="width: 50px; height: 50px;">
                             </div>
                             <div class="col-md-12">
-                                <label for="coverBukuBelakang" class="form-label">Masukan Lembar Belakang File image</label>
+                                <label for="coverBukuBelakang" class="form-label">Lembar Belakang File image</label>
                                 <input type="file" class="form-control" id="coverBukuBelakang" name="coverBukuBelakang"
                                     accept=".jpg, .jpeg, .png">
-                                <label for="coverbuku" class="form-label mt-4">Masukan Cover Buku Belakang Lama</label>
+                                <label for="coverbuku" class="form-label mt-4">Cover Buku Belakang Lama</label>
                                 <img src="{{ Storage::url($buku->coverBukuBelakang) }}" class="img-fluid rounded-start"
                                     style="width: 50px; height: 50px;">
                             </div>
                             <h5 class="card-title">Biodata Penulis</h5>
                             <div class="col-md-6">
-                                <label for="namaPenulis" class="form-label">Masukan Nama Penulis</label>
+                                <label for="namaPenulis" class="form-label">Nama Penulis</label>
                                 <input type="text" class="form-control" id="namaPenulis" name="namaPenulis"
                                     value="{{ $buku->penulis->nama }}"required>
                             </div>

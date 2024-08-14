@@ -15,12 +15,14 @@ class RegisterController extends Controller
     {
         return view('auth.register'); 
     }
+
     public function register(Request $request)
     {
         // Validasi input
         $request->validate([
             'name' => ['required', 'string', 'max:50'],
-            'username' => ['required', 'string', 'email', 'max:100', 'unique:users'],
+            'username' => ['required', 'string', 'max:100', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
@@ -28,29 +30,39 @@ class RegisterController extends Controller
         $params1 = $request->all();
         $params2 = [
             'username' => $request->username,
+            'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'pengaju',
         ];
 
-        // Membuat User
-        $user = User::create($params2);
-        if ($user) {
-            $params1['user_id'] = $user->id;
+        try {
+            // Membuat User
+            $user = User::create($params2);
+            if ($user) {
+                $params1['user_id'] = $user->id;
 
-            // Membuat Pengaju
-            $pengaju = Pengaju::create($params1);
-            if ($pengaju) {
-                // Menampilkan pesan sukses
-                // Anda dapat mengganti ini dengan library alert yang Anda gunakan
-                return redirect()->route('login')->with('success', 'Data Berhasil Disimpan');
-            } else {
-                $user->delete();
-                // Menampilkan pesan error
-                // Anda dapat mengganti ini dengan library alert yang Anda gunakan
-                return redirect()->route('register')->with('error', 'Data Gagal Disimpan');
+                // Membuat Pengaju
+                $pengaju = Pengaju::create($params1);
+                if ($pengaju) {
+                    // Menampilkan pesan sukses
+                    return redirect()->route('login')->with('success', 'Data Berhasil Disimpan');
+                } else {
+                    // Hapus user jika gagal menyimpan pengaju
+                    $user->delete();
+                    // Menampilkan pesan error
+                    return redirect()->route('register')->with('error', 'Data Gagal Disimpan');
+                }
             }
+        } catch (\Illuminate\Database\QueryException $ex) {
+            // Menangani error duplikat
+            if ($ex->errorInfo[1] == 1062) {
+                return redirect()->route('register')->withErrors('Username atau email sudah digunakan.');
+            }
+
+            // Menangani error lain (opsional)
+            return redirect()->route('register')->withErrors('Terjadi kesalahan, silakan coba lagi.');
         }
+
         return redirect()->route('login');
     }
 }
-

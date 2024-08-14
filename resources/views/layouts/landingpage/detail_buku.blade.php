@@ -38,7 +38,7 @@
                     <div class="col-md-9">
                         <div class="card-body">
                             <h1 class="card-title">{{ $detailBuku->judul }}</h1>
-                            <h3 class="mt-2">Rp {{ number_format($detailBuku->harga, 0, ',', '.') }}</h3>
+                            <!-- <h3 class="mt-2">Rp {{ number_format($detailBuku->harga, 0, ',', '.') }}</h3> -->
                             <table class="table w-100">
                                 <tbody>
                                     <tr>
@@ -58,12 +58,28 @@
                                         <td>{{ $detailBuku->jumlahHalaman }}</td>
                                     </tr>
                                     <tr>
+                                        <th scope="row" class="w-25">Harga</th>
+                                        <td>{{ $detailBuku->harga }}</td>
+                                    </tr>
+                                    <tr>
+                                    <tr>
+                                        <th scope="row" class="w-25">ISBN</th>
+                                        <td>{{ $detailBuku->isbn }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="w-25">Nomer Produk</th>
+                                        <td>{{ $detailBuku->noProduk }}</td>
+                                    <tr>
                                         <th scope="row" class="w-25">Update Terakhir</th>
                                         <td>
                                             <small class="text-body-secondary">
                                                 {{ \Carbon\Carbon::parse($detailBuku->updated_at)->diffForHumans() }}
                                             </small>
                                         </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="w-25">Resensi Buku</th>
+                                        <td>{{ $detailBuku->resensi }}</td>
                                     </tr>
                                 </tbody>
                             </table>
