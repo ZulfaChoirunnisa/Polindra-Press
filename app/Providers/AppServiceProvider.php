@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
         FacadesView::composer('*', function ($view) {
             $user = Auth::user();
             $profileData = null;
-    
+
             if ($user) {
                 if ($user->admin) {
                     $profileData = $user->admin;
@@ -37,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
                     $profileData = $user->pengaju;
                 }
             }
-    
+
             $view->with('profileData', $profileData);
         });
     }

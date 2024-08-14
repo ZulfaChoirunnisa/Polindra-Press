@@ -1,89 +1,59 @@
 @extends('layouts.index')
 @section('main-content')
-    <div class="pagetitle">
-        <h1>Data Buku Siap Terbit</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                <li class="breadcrumb-item active">Data Buku Lolos Review</li>
-            </ol>
-        </nav>
-    </div><!-- End Page Title -->
+    <div class="d-flex justify-content-between align-items-start mb-3">
+        <div class="pagetitle">
+            <h1 class="m-0 p-0">Data Buku Siap Terbit</h1>
+            <nav>
+                <ol class="breadcrumb mb-0 pb-0">
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                    <li class="breadcrumb-item active">Data Buku Lolos Review</li>
+                </ol>
+            </nav>
+        </div><!-- End Page Title -->
+        <div class="text-center mt-3">
+            <a href="{{ route('SuperAdmin.Export') }}" class="btn btn-primary"><i class="bx bxs-download"></i>
+                Download</a>
+        </div>
+    </div>
     <section class="section">
         <div class="row">
-            <div class="col-lg-12">
-
-                <div class="card overflow-auto">
-                    <div class="card-body">
-                        <h5 class="card-title">Data tables</h5>
-                        <p>Berikut adalah tabel data buku yang sudah lolos review.</p>
-                        <!-- Table with stripped rows -->
-                        <table class="table datatable">
-                            <thead>
-                                <tr>
-                                <th>No</th>
-                                    <th>
-                                        <b>J</b>udul
-                                    </th>
-                                    <th>Jumlah Halman</th>
-                                    <th>Daftar Pustaka</th>
-                                    <th>Resensi</th>
-                                    <th>Surat Keaslian</th>
-                                    <th>Draft Buku</th>
-                                    <th>Cover Buku</th>
-                                    <th>Tahun Terbit</th>
-                                    <th>ISBN</th>
-                                    <th>Status</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            @foreach ($buku as $bukus)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $bukus->judul }}</td>
-                                        <td>{{ $bukus->jumlahHalaman }}</td>
-                                        <td>{{ $bukus->daftarPustaka }}</td>
-                                        <td>{{ $bukus->resensi }}</td>
-                                        <td><a href="{{ Storage::url($bukus->suratKeaslian) }}" target="_blank">Lihat
-                                                PDF</a>
-                                        </td>
-                                        <td><a href="{{ Storage::url($bukus->draftBuku) }}" target="_blank">Lihat
-                                                PDF</a>
-                                        </td>
-                                        <td><img src="{{ Storage::url($bukus->coverBuku) }}" class="rounded-circle"
-                                                style="width: 50px; height: 50px;"></td>
-                                        <th>{{ $bukus->tahunTerbit }}</th>
-                                        <td>{{ $bukus->isbn }}</td>
-                                        <td>{{ $bukus->status }}</td>
-                                        <td>
-                                        <td>
-                                        @if (!empty($bukus->isbn) && !empty($bukus->noProduk))
-                                                @if ($bukus->publish == 'is_publish')
-                                                    <p>buku sudah di publish</p>
-                                                @else
-                                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                        data-bs-target="#verticalycentered{{ $bukus->id }}">Terbitkan
-                                                        <i class="bbi bi-box-arrow-up"></i>
-                                                    </button>
-                                                @endif
-                                            @else
-                                                <a type="button" class="btn btn-warning"
-                                                    href ="{{ route('Admin.Buku.Edit', $bukus->id) }}"><i
-                                                        class="bx bxs-edit-alt"></i></a>
-                                        @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+            @foreach ($buku as $b)
+                <div class="col-lg-3 col-md-6">
+                    <div class="card position-relative">
+                        @if ($b->status == 'pending')
+                            <span class="badge position-absolute bg-info">Pending</span>
+                        @elseif ($b->status == 'accept')
+                            <span class="badge position-absolute bg-primary">Disetujui</span>
+                        @elseif ($b->status == 'revisi')
+                            <span class="badge position-absolute bg-warning">Revisi</span>
+                        @elseif ($b->status == 'tolak')
+                            <span class="badge position-absolute bg-danger">Tolak</span>
+                        @endif
+                        <img src="{{ Storage::url($b->coverBuku) }}" class="card-img-top" alt="{{ $b->judul }}"
+                            height="200">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $b->judul }} ({{ $b->tahunTerbit }})</h5>
+                            <div>
+                                @if (!empty($b->isbn) && !empty($b->noProduk))
+                                    @if ($b->publish == 'is_publish')
+                                        <div class="badge bg-success">buku sudah di publish</div>
+                                    @else
+                                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#verticalycentered{{ $b->id }}">Terbitkan
+                                            <i class="bbi bi-box-arrow-up"></i>
+                                        </button>
+                                    @endif
+                                @else
+                                    <a type="button" class="btn btn-warning btn-sm"
+                                        href ="{{ route('Admin.Buku.Edit', $b->id) }}">
+                                        Edit
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="text-center mt-3">
-                    <a href="{{ route('export.users') }}" class="btn btn-primary"><i class="bx bxs-download"></i>
-                        Download</a>
-                </div>
-            </div>
+            @endforeach
         </div>
     </section>
 
@@ -119,14 +89,14 @@
                                         <td class="text-right">Daftar Pustaka</td>
                                         <td>:</td>
                                         <td>
-                                            {{limit_sentences($show->daftarPustaka, 20)}}
+                                            {{ limit_sentences($show->daftarPustaka, 20) }}
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="text-right">Resensi</td>
                                         <td>:</td>
                                         <td>
-                                            {{limit_sentences ($show->resensi, 10) }}
+                                            {{ limit_sentences($show->resensi, 10) }}
                                         </td>
                                     </tr>
                                     <tr>
@@ -147,8 +117,8 @@
                                         <td class="text-right">Cover Buku</td>
                                         <td>:</td>
                                         <td>
-                                            <img src="{{ Storage::url($bukus->coverBuku) }}"
-                                                class="img-fluid rounded-start" style="width: 50px; height: 50px;">
+                                            <img src="{{ Storage::url($show->coverBuku) }}" class="img-fluid rounded-start"
+                                                style="width: 50px; height: 50px;">
                                         </td>
                                     </tr>
                                     <tr>

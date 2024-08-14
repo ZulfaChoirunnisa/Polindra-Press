@@ -19,7 +19,7 @@ class PengajuProfileController extends Controller
     {
         $userId = Auth::user()->id;
         $data['pengaju'] = Pengaju::where('user_id', $userId)->first();
-        return view('Pengaju.buku.profile', $data);
+        return view('pengaju.buku.profile', $data);
     }
 
     public function update(Request $request)

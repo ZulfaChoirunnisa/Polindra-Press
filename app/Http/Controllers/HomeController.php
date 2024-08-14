@@ -29,6 +29,8 @@ class HomeController extends Controller
         } else if (auth()->user()->role == 'pengaju') {
             return view('pengaju.home');
             // return view('home');
+        } else {
+            return view('admin.home');
         }
     }
 }

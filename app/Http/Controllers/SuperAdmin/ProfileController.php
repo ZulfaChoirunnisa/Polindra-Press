@@ -1,49 +1,50 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\SuperAdmin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin;
+use App\Models\SuperAdmin;
 use App\Models\User;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class AdminProfileController extends Controller
+class ProfileController extends Controller
 {
-    public function profileadmin()
+    public function profile()
     {
-        $adminId = Auth::user()->id;
-        $data['admin'] = Admin::where('id', $adminId)->first();
-        return view('admin.buku.profileadmin', $data);
+        $userId = Auth::user()->id;
+        $data['superadmin'] = SuperAdmin::where('user_id', $userId)->first();
+        return view('superadmin.buku.profile', $data);
     }
 
     public function update(Request $request)
     {
+        DB::beginTransaction();
+
         try {
-            DB::beginTransaction();
             $user = User::where('id', Auth::user()->id)->first();
-            $admin = Admin::where('user_id', $user->id)->first();
+            $superadmin = SuperAdmin::where('user_id', $user->id)->first();
 
-            if ($user && $admin) {
-                $admin->name = $request->input('name');
+            if ($user && $superadmin) {
+                $superadmin->name = $request->input('name');
                 if ($request->hasFile('foto')) {
-                    $admin->foto = $this->simpanProfile('admin', $request->file('foto'), $user->id);
+                    $superadmin->foto = $this->simpanProfile('superadmin', $request->file('foto'), $user->id);
                 }
-                $admin->job = $request->input('job');
-                $admin->alamat = $request->input('alamat');
-                $admin->notlp = $request->input('notlp');
+                $superadmin->job = $request->input('job');
+                $superadmin->alamat = $request->input('alamat');
+                $superadmin->notlp = $request->input('notlp');
 
-                $admin->save();
+                $superadmin->save();
 
                 DB::commit();
                 return back()->with('success', 'Data Berhasil Diubah!');
             } else {
-                return back()->with('error', 'Data Pengguna atau Pengaju tidak ditemukan.');
+                return back()->with('error', 'Data Pengguna atau superadmin tidak ditemukan.');
             }
         } catch (\Exception $e) {
             DB::rollback();
@@ -75,15 +76,18 @@ class AdminProfileController extends Controller
     }
 
 
+
     public function reset(Request $request)
     {
+        DB::beginTransaction();
+
         $validator = Validator::make($request->all(), [
             'current_password' => 'required',
             'new_password' => 'required|min:6|different:current_password',
             'password_confirmation' => 'required|same:new_password',
         ]);
+
         try {
-            DB::beginTransaction();
             $user = User::where('id', Auth::user()->id)->first();
 
             if ($validator->fails()) {

@@ -1,10 +1,28 @@
-@extends('layouts.mainlayout')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('title', 'About')
+@include('layouts.landingpage.head')
 
-@section('content')
-<h1>
-    About Me 
-</h1>
-@endsection
+<body>
 
+    <!-- ======= Header ======= -->
+    @include('layouts.landingpage.header')
+
+
+    <main id="main" class="mt-5">
+        <!-- ======= About Section ======= -->
+        @include('layouts.landingpage.about')
+
+
+    </main><!-- End #main -->
+
+    @include('layouts.landingpage.footer')
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
+
+    @include('layouts.landingpage.js')
+
+</body>
+
+</html>

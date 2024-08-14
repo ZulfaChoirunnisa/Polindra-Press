@@ -19,14 +19,14 @@ class RedirectIfAuthenticated
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
     public function handle(Request $request, Closure $next, ...$guards)
-        {
-            if (Auth::guard($guards)->check()) {
-                if (Auth::user()->role == 'pengaju') {
-                    return redirect("/Pengaju/buku/create");
-                }else if (Auth::user()->role == 'admin') {
-                    return redirect("/Admin/buku/dashboard");
-                }
+    {
+        if (Auth::guard($guards)->check()) {
+            if (Auth::user()->role == 'pengaju') {
+                return redirect("/Pengaju/buku/create");
+            } else if (Auth::user()->role == 'admin') {
+                return redirect("/home");
             }
-            return $next($request);
+        }
+        return $next($request);
     }
 }

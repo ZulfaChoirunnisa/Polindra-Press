@@ -52,4 +52,8 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Models\Pengaju');
     }
+    public function sa()
+    {
+        return $this->hasOne('App\Models\SuperAdmin');
+    }
 }

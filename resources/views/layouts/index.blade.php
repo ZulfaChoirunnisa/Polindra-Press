@@ -25,6 +25,8 @@
 
     @include('layouts.componen.js')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     @if (session('success'))
         <script type="text/javascript">
             Swal.fire({
@@ -58,7 +60,50 @@
                     }
                 });
             });
+
+            $("body").on("click", ".btn-delete", function(e) {
+                e.preventDefault();
+
+                let form = $(this).closest("form");
+
+                Swal.fire({
+                    title: "Apa kamu yakin?",
+                    text: "Anda tidak akan dapat mengembalikan data ini!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Hapus!",
+                    customClass: {
+                        confirmButton: "btn btn-danger me-3",
+                        cancelButton: "btn btn-label-secondary",
+                    },
+                    buttonsStyling: false,
+                }).then(function(result) {
+                    if (result.value) {
+                        form.submit();
+                    }
+                });
+            });
         });
+    </script>
+    <script>
+        (() => {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
     </script>
 
 </body>

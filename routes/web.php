@@ -10,6 +10,10 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Pengaju\BukuController as PengajuBukuController;
 use App\Http\Controllers\Pengaju\HasilReviewController;
 use App\Http\Controllers\Pengaju\PengajuProfileController;
+use App\Http\Controllers\SuperAdmin\AdminController;
+use App\Http\Controllers\SuperAdmin\PengajuController;
+use App\Http\Controllers\SuperAdmin\ProfileController;
+use App\Models\Buku;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -38,11 +42,12 @@ Route::get('register', [RegisterController::class, 'showRegistrationForm'])->nam
 Route::post('register', [RegisterController::class, 'register'])->name('register');
 
 Route::get('/about', function () {
-    return view('About');
+    return view('about');
 });
 
 Route::get('/db', function () {
-    return view('DaftarBuku');
+    $data['buku'] = Buku::where('publish', 'is_publish')->get();
+    return view('DaftarBuku', $data);
 });
 Auth::routes();
 
@@ -80,5 +85,34 @@ Route::middleware(['auth', 'user-access:pengaju'])->group(function () {
             Route::put('profile/update', [PengajuProfileController::class, 'update'])->name('Pengaju.profile.update');
             Route::put('profile/reset', [PengajuProfileController::class, 'reset'])->name('Pengaju.profile.reset');
         });
+    });
+});
+
+Route::middleware(['auth', 'user-access:superadmin'])->group(function () {
+    Route::prefix('SuperAdmin')->group(function () {
+        Route::prefix('account')->group(function () {
+            Route::prefix('admin')->name('SuperAdmin.Account.Admin.')->group(function () {
+                Route::get('/', [AdminController::class, 'index'])->name('Index');
+                Route::post('/', [AdminController::class, 'store'])->name('Store');
+                Route::put('/{id}', [AdminController::class, 'update'])->name('Update');
+                Route::delete('/{id}', [AdminController::class, 'delete'])->name('Delete');
+            });
+            Route::prefix('pengaju')->name('SuperAdmin.Account.Pengaju.')->group(function () {
+                Route::get('/', [PengajuController::class, 'index'])->name('Index');
+                Route::post('/', [PengajuController::class, 'store'])->name('Store');
+                Route::put('/{id}', [PengajuController::class, 'update'])->name('Update');
+                Route::delete('/{id}', [PengajuController::class, 'delete'])->name('Delete');
+            });
+        });
+
+        Route::prefix('buku')->name('SuperAdmin.Buku.')->group(function () {
+            Route::get('/', [BukuController::class, 'index'])->name('Index');
+            Route::get('download', [BukuController::class, 'download'])->name('Download');
+            Route::get('profile', [ProfileController::class, 'profile'])->name('Profile');
+            Route::put('profile/update', [ProfileController::class, 'update'])->name('profile.update');
+            Route::put('profile/reset', [ProfileController::class, 'reset'])->name('profile.reset');
+        });
+
+        Route::get('export-users', [BukuController::class, 'exportBukuUsers'])->name('SuperAdmin.Export');
     });
 });

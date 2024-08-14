@@ -11,85 +11,39 @@
     </div><!-- End Page Title -->
     <section class="section">
         <div class="row">
-            <div class="col-lg-12">
-
-                <div class="card overflow-auto">
-                    <div class="card-body">
-                        <h5 class="card-title">Data tables</h5>
-                        <p>Berikut adalah tabel data pengajuan penerbitan buku, klik detail untuk review data ajuan.</p>
-                        <!-- Table with stripped rows -->
-                        <table class="table datatable">
-                            <thead>
-                                <tr>
-                                <th>No</th>
-                                    <th>
-                                        <b>J</b>udul
-                                    </th>
-                                    <th>Jumlah Halman</th>
-                                    <th>Daftar Pustaka</th>
-                                    <th>Resensi</th>
-                                    <th>Surat Keaslian</th>
-                                    <th>Draft Buku</th>
-                                    <th>Cover Buku</th>
-                                    <th>Tahun Terbit</th>
-                                    <th>Status</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($buku as $bukus)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $bukus->judul }}</td>
-                                        <td>{{ $bukus->jumlahHalaman }}</td>
-                                        <td>{{ limit_sentences($bukus->daftarPustaka, 20) }}</td>
-                                        <td>{{ limit_sentences($bukus->resensi, 10) }}</td>
-                                        <td><a href="{{ Storage::url($bukus->suratKeaslian) }}" target="_blank">Lihat
-                                                PDF</a>
-                                        </td>
-                                        <td><a href="{{ Storage::url($bukus->draftBuku) }}" target="_blank">Lihat
-                                                PDF</a>
-                                        </td>
-                                        <td><img src="{{ Storage::url($bukus->coverBuku) }}" class="rounded-circle"
-                                                style="width: 50px; height: 50px;"></td>
-                                        <th>{{ $bukus->tahunTerbit }}</th>
-                                        <td>
-                                            @if ($bukus->status == 'pending')
-                                                <span class="badge bg-info">Pending</span>
-                                            @elseif ($bukus->status == 'accept')
-                                                <span class="badge bg-primary">Accepted</span>
-                                            @elseif ($bukus->status == 'revisi')
-                                                <span class="badge bg-warning">Revisi</span>
-                                            @elseif ($bukus->status == 'tolak')
-                                                <span class="badge bg-danger">Tolak</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if ($bukus->status == 'accept')
-                                                <p>Buku dalam tahap pemberian ISBN dan noProduk</p>
-                                            @elseif ($bukus->status == 'revisi')
-                                                <p>Buku Sedang Direvisi oleh Pengaju</p>
-                                            @elseif ($bukus->status == 'tolak')
-                                                <p>Buku Ditolak</p>
-                                            @elseif ($bukus->status == 'pending')
-                                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                                    data-bs-target="#verticalycentered{{ $bukus->id }}">
-                                                    <i class="bx bxs-edit-alt"></i>
-                                                </button>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+            @foreach ($buku as $b)
+                <div class="col-lg-3 col-md-6">
+                    <div class="card position-relative">
+                        @if ($b->status == 'pending')
+                            <span class="badge position-absolute bg-info">Pending</span>
+                        @elseif ($b->status == 'accept')
+                            <span class="badge position-absolute bg-primary">Accepted</span>
+                        @elseif ($b->status == 'revisi')
+                            <span class="badge position-absolute bg-warning">Revisi</span>
+                        @elseif ($b->status == 'tolak')
+                            <span class="badge position-absolute bg-danger">Tolak</span>
+                        @endif
+                        <img src="{{ Storage::url($b->coverBuku) }}" class="card-img-top" alt="{{ $b->judul }}"
+                            height="200">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $b->judul }} ({{ $b->tahunTerbit }})</h5>
+                            <div>
+                                <button type="button" class="btn btn-info" data-bs-toggle="modal"
+                                    data-bs-target="#verticalycentered{{ $b->id }}">
+                                    <i class="bi bi-eye"></i> Detail
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endforeach
+
         </div>
     </section>
+
     @foreach ($buku as $show)
         <div class="modal fade" id="verticalycentered{{ $show->id }}" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <form action="{{ url('Admin/buku/review/' . $show->id) }}" method="POST">
                         @csrf
@@ -146,8 +100,8 @@
                                         <td class="text-right">Cover Buku</td>
                                         <td>:</td>
                                         <td>
-                                            <img src="{{ Storage::url($bukus->coverBuku) }}"
-                                                class="img-fluid rounded-start" style="width: 50px; height: 50px;">
+                                            <img src="{{ Storage::url($show->coverBuku) }}" class="img-fluid rounded-start"
+                                                style="width: 50px; height: 50px;">
                                         </td>
                                     </tr>
                                     <tr>
@@ -157,13 +111,6 @@
                                             {{ $show->tahunTerbit }}
                                         </td>
                                     </tr>
-                                    <!-- <tr>
-                                        <td class="text-right">Harga</td>
-                                        <td>:</td>
-                                        <td>
-                                            {{ $show->harga }}
-                                        </td>
-                                    </tr> -->
                                     <tr>
                                         <td class="text-right">NoProduk</td>
                                         <td>:</td>
@@ -201,25 +148,40 @@
                                             @endif
                                         </td>
                                     </tr>
+                                    @if (!empty($show->isbn) && !empty($show->noProduk) && $show->publish == 'is_publish')
+                                        <tr>
+                                            <td class="text-right">Status Publish</td>
+                                            <td>:</td>
+                                            <td>
+                                                <div class="badge bg-success">buku sudah di publish</div>
+                                            </td>
+                                        </tr>
+                                    @endif
                                     <tr>
                                         <td class="text-right">Komentar</td>
                                         <td>:</td>
                                         <td>
-                                            <textarea name="catatan" class="form-control"></textarea>
+                                            @if ($show->adminComment == null)
+                                                <textarea name="catatan" class="form-control"></textarea>
+                                            @else
+                                                {{ $show->adminComment }}
+                                            @endif
                                         </td>
                                     </tr>
                                 </table>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-primary" type="submit" name="status" value="accept">Accepted</button>
-                            <button class="btn btn-warning" type="submit" name="status" value="revisi">Revisi</button>
-                            <button class="btn btn-danger" type="submit" name="status" value="tolak">Tolak</button>
+                            @if ($show->status == 'pending')
+                                <button class="btn btn-primary" type="submit" name="status"
+                                    value="accept">Accepted</button>
+                                <button class="btn btn-warning" type="submit" name="status" value="revisi">Revisi</button>
+                                <button class="btn btn-danger" type="submit" name="status" value="tolak">Tolak</button>
+                            @endif
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     @endforeach
-
-< @endsection
+@endsection

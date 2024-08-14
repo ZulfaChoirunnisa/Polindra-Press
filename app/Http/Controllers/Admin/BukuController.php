@@ -137,6 +137,4 @@ class BukuController extends Controller
         // Redirect kembali ke halaman publish dengan pesan sukses
         return redirect()->route('Admin.Buku.Publish')->with('success', 'Buku berhasil dipublish!');
     }
-
-   
 }
