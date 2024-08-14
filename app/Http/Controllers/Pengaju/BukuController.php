@@ -20,8 +20,9 @@ class BukuController extends Controller
     }
 
     public function store(Request $request)
-{
-    try {
+    {
+        DB::beginTransaction();
+
         // Validasi input
         $request->validate([
             'namaPenulis' => 'required|string|max:255',
@@ -38,63 +39,63 @@ class BukuController extends Controller
             'draftBuku' => 'required|file|mimes:pdf|max:25000', // 25000 KB = 25 MB
         ]);
 
-        DB::beginTransaction();
+        try {
 
-        $penulis = Penulis::create([
-            'nama' => $request['namaPenulis'],
-            'noTelepon' => $request['noTeleponPenulis'],
-            'alamat' => $request['alamatPenulis'],
-        ]);
-        // dd($penulis);
-        $coverPath = $this->simpanFile('cover', $request->file('coverBuku'));
-        $coverBelakangPath = $request->hasFile('coverBukuBelakang') ? $this->simpanFile('coverBelakang', $request->file('coverBukuBelakang')) : null;
+            $penulis = Penulis::create([
+                'nama' => $request['namaPenulis'],
+                'noTelepon' => $request['noTeleponPenulis'],
+                'alamat' => $request['alamatPenulis'],
+            ]);
+            // dd($penulis);
+            $coverPath = $this->simpanFile('cover', $request->file('coverBuku'));
+            $coverBelakangPath = $request->hasFile('coverBukuBelakang') ? $this->simpanFile('coverBelakang', $request->file('coverBukuBelakang')) : null;
 
-        $suratPath = $this->simpanFile('surat', $request->file('suratKeaslian'));
-        $draftBukuPath = $this->simpanFile('draftBuku', $request->file('draftBuku'));
+            $suratPath = $this->simpanFile('surat', $request->file('suratKeaslian'));
+            $draftBukuPath = $this->simpanFile('draftBuku', $request->file('draftBuku'));
 
-        Buku::create([
-            'pengaju_id' => Auth::user()->pengaju->id,
-            'penulis_id' => $penulis->id,
-            'judul' => $request['judul'],
-            'jumlahHalaman' => $request['jumlahHalaman'],
-            'daftarPustaka' => $request['daftarPustaka'],
-            'resensi' => $request['resensi'],
-            'draftBuku' => $draftBukuPath,
-            'suratKeaslian' => $suratPath,
-            'coverBuku' => $coverPath,
-            'coverBukuBelakang' => $coverBelakangPath,
-            'tahunTerbit' => $request['tahunTerbit'],
-            // 'harga' => $request['harga'],
-            // 'noProduk' => null,
-            // 'isbn' => $request['isbn'],
-            'status' => 'pending',
-            'statusUpload' => 'belum upload',
-            // 'adminComment' => null,
-        ]); 
+            Buku::create([
+                'pengaju_id' => Auth::user()->pengaju->id,
+                'penulis_id' => $penulis->id,
+                'judul' => $request['judul'],
+                'jumlahHalaman' => $request['jumlahHalaman'],
+                'daftarPustaka' => $request['daftarPustaka'],
+                'resensi' => $request['resensi'],
+                'draftBuku' => $draftBukuPath,
+                'suratKeaslian' => $suratPath,
+                'coverBuku' => $coverPath,
+                'coverBukuBelakang' => $coverBelakangPath,
+                'tahunTerbit' => $request['tahunTerbit'],
+                // 'harga' => $request['harga'],
+                // 'noProduk' => null,
+                // 'isbn' => $request['isbn'],
+                'status' => 'pending',
+                'statusUpload' => 'belum upload',
+                // 'adminComment' => null,
+            ]);
 
-        DB::commit();
+            DB::commit();
 
-        return back()->with('success', 'Data Buku Pengajuan Berhasil Dikirim');
-    } catch (\Exception $e) {
-        DB::rollBack();
-        // Deteksi kesalahan ukuran file secara spesifik
-        if ($e instanceof \Illuminate\Validation\ValidationException) {
-            $errors = $e->validator->errors();
-            if ($errors->has('coverBuku') || $errors->has('coverBukuBelakang') || $errors->has('suratKeaslian') || $errors->has('draftBuku')) {
-                return back()->with('error', 'File yang diunggah melebihi batas ukuran yang diizinkan.');
+            return back()->with('success', 'Data Buku Pengajuan Berhasil Dikirim');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // Deteksi kesalahan ukuran file secara spesifik
+            if ($e instanceof \Illuminate\Validation\ValidationException) {
+                $errors = $e->validator->errors();
+                if ($errors->has('coverBuku') || $errors->has('coverBukuBelakang') || $errors->has('suratKeaslian') || $errors->has('draftBuku')) {
+                    return back()->with('error', 'File yang diunggah melebihi batas ukuran yang diizinkan.');
+                }
             }
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
-        return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
     }
-}
 
-private function simpanFile($type, $file)
-{
-    $dt = new DateTime();
-    $path = 'uploads/' . $type . '/' . $dt->format('Y-m-d');
+    private function simpanFile($type, $file)
+    {
+        $dt = new DateTime();
+        $path = 'uploads/' . $type . '/' . $dt->format('Y-m-d');
 
-    $fileName = $type . '_' . $dt->format('Y-m-d_His') . '.' . $file->getClientOriginalExtension();
-    $filePath = $file->storeAs($path, $fileName, 'public');
-    return $filePath;
-}
+        $fileName = $type . '_' . $dt->format('Y-m-d_His') . '.' . $file->getClientOriginalExtension();
+        $filePath = $file->storeAs($path, $fileName, 'public');
+        return $filePath;
+    }
 }

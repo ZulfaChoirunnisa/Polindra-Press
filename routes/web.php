@@ -109,8 +109,10 @@ Route::middleware(['auth', 'user-access:superadmin'])->group(function () {
             Route::get('/', [BukuController::class, 'index'])->name('Index');
             Route::get('download', [BukuController::class, 'download'])->name('Download');
             Route::get('profile', [ProfileController::class, 'profile'])->name('Profile');
+            Route::get('edit/{id}', [BukuController::class, 'edit'])->name('Edit');
             Route::put('profile/update', [ProfileController::class, 'update'])->name('profile.update');
             Route::put('profile/reset', [ProfileController::class, 'reset'])->name('profile.reset');
+            Route::put('review/edit/{id}', [BukuController::class, 'storeedit'])->name('Storeedit');
         });
 
         Route::get('export-users', [BukuController::class, 'exportBukuUsers'])->name('SuperAdmin.Export');

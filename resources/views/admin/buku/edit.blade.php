@@ -19,7 +19,7 @@
 
                         <!-- Custom Styled Validation -->
                         <form class="row g-3" method="POST" enctype="multipart/form-data"
-                            action="{{ route('Admin.Buku.Storeedit', $buku->id) }}">
+                            action="{{ auth()->user()->role == 'admin' ? route('Admin.Buku.Storeedit', $buku->id) : route('SuperAdmin.Buku.Storeedit', $buku->id) }}">
                             @csrf
                             @method('PUT')
                             <div class="col-md-12">
@@ -33,11 +33,11 @@
                             </div>
                             <div class="col-md-12">
                                 <label for="DaftarPustaka" class="form-label">Daftar Pustaka</label>
-                                <input type="text" class="form-control" value="{{ $buku->daftarPustaka }}" disabled>
+                                <textarea rows="5" class="form-control" disabled>{{ $buku->daftarPustaka }}</textarea>
                             </div>
                             <div class="col-md-12">
                                 <label for="Resensi" class="form-label">Resensi Buku</label>
-                                <input type="text" class="form-control" value="{{ $buku->resensi }}" disabled>
+                                <textarea rows="5" class="form-control" disabled>{{ $buku->resensi }}</textarea>
                             </div>
                             <div class="col-md-12">
                                 <label for="tahunterbit" class="form-label">Tahun Terbit</label>
@@ -45,18 +45,17 @@
                             </div>
                             <div class="col-md-12">
                                 <label for="harga" class="form-label">Tambahkan Harga</label>
-                                <input type="text" class="form-control" name="harga" 
-                                    value="{{ $buku->harga }}">
+                                <input type="text" class="form-control" name="harga" value="{{ $buku->harga }}">
                             </div>
                             <div class="col-md-12">
                                 <label for="ISBN" class="form-label">Tambahkan ISBN</label>
                                 <input type="text" class="form-control" id="ISBN" name="isbn"
-                                    value="{{ $buku->ISBN }}">
+                                    value="{{ $buku->isbn }}">
                             </div>
                             <div class="col-md-12">
                                 <label for="noproduk" class="form-label">Tambahkan Product Number</label>
                                 <input type="text" class="form-control" id="noproduk" name="noProduk"
-                                    value="{{ $buku->noproduk }}">
+                                    value="{{ $buku->noProduk }}">
                             </div>
                             <div class="col-md-12">
                                 <label for="Suratkeaslian" class="form-label">File Surat Keasliaan</label>

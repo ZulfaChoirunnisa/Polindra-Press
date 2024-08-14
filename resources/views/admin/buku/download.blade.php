@@ -44,10 +44,12 @@
                                         </button>
                                     @endif
                                 @else
-                                    <a type="button" class="btn btn-warning btn-sm"
-                                        href ="{{ route('Admin.Buku.Edit', $b->id) }}">
-                                        Edit
-                                    </a>
+                                    @if (auth()->user()->role == 'admin')
+                                        <a type="button" class="btn btn-warning btn-sm"
+                                            href ="{{ route('Admin.Buku.Edit', $b->id) }}">
+                                            Edit
+                                        </a>
+                                    @endif
                                 @endif
                             </div>
                         </div>

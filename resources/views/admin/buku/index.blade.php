@@ -28,7 +28,14 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ $b->judul }} ({{ $b->tahunTerbit }})</h5>
                             <div>
-                                <button type="button" class="btn btn-info" data-bs-toggle="modal"
+                                @if (auth()->user()->role == 'superadmin')
+                                    @if ($b->status == 'accept')
+                                        <a type="button" class="btn btn-warning btn-sm"
+                                            href ="{{ route('SuperAdmin.Buku.Edit', $b->id) }}">
+                                            Edit</a>
+                                    @endif
+                                @endif
+                                <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal"
                                     data-bs-target="#verticalycentered{{ $b->id }}">
                                     <i class="bi bi-eye"></i> Detail
                                 </button>

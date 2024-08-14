@@ -8,6 +8,7 @@ use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Models\Buku;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Nette\Utils\DateTime;
 use Illuminate\Support\Facades\Hash;
@@ -91,16 +92,21 @@ class BukuController extends Controller
     }
     public function storeedit(Request $request, $id)
     {
+        DB::beginTransaction();
+
         try {
-            DB::beginTransaction();
             $buku = Buku::find($id);
             $buku->update([
                 'isbn' => $request->isbn,
+                'harga' => $request->harga,
                 'noProduk' => $request->noProduk,
             ]);
 
             DB::commit();
-            return redirect('/Admin/buku/download')->with('success', 'Berhasil menambahkan isbn dan no produk');
+            if (Auth::user()->role == 'admin') {
+                return redirect('/Admin/buku/download')->with('success', 'Berhasil menambahkan isbn dan no produk');
+            }
+            return redirect('/SuperAdmin/buku')->with('success', 'Berhasil menambahkan isbn dan no produk');
         } catch (\Exception $e) {
             DB::rollback();
             return back()->with('error', 'Error' . $e->getMessage());
