@@ -1,18 +1,23 @@
 @extends('layouts.index')
 @section('main-content')
-    <div class="pagetitle">
-        <h1>Data Pengajuan</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                <li class="breadcrumb-item active">Data Pengajuan</li>
-            </ol>
-        </nav>
+    <div class="d-flex align-items-start justify-content-between">
+        <div class="pagetitle">
+            <h1>Data Pengajuan</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                    <li class="breadcrumb-item active">Data Pengajuan</li>
+                </ol>
+            </nav>
+        </div><!-- End Page Title -->
+        <div>
+            <input type="search" class="form-control" placeholder="pencarian">
+        </div>
     </div><!-- End Page Title -->
-    <section class="section">
+    <section class="section" id="content">
         <div class="row">
             @foreach ($buku as $b)
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-3 col-md-6 items">
                     <div class="card position-relative">
                         @if ($b->status == 'pending')
                             <span class="badge position-absolute bg-info">Pending</span>
@@ -94,6 +99,9 @@
                                         <td>:</td>
                                         <td><a href="{{ Storage::url($show->suratKeaslian) }}" target="_blank">Lihat
                                                 PDF</a>
+                                            <br>
+                                            <a href="{{ route('Buku.Download', ['id' => $show->id, 'type' => 'keaslian']) }}"
+                                                target="_blank"> Download Surat Keaslian</a>
                                         </td>
                                     </tr>
                                     <tr>
@@ -101,6 +109,10 @@
                                         <td>:</td>
                                         <td><a href="{{ Storage::url($show->draftBuku) }}" target="_blank">Lihat
                                                 PDF</a>
+                                            <br>
+                                            <a href="{{ route('Buku.Download', ['id' => $show->id, 'type' => 'draft']) }}"
+                                                target="_blank"> Download
+                                                Draft</a>
                                         </td>
                                     </tr>
                                     <tr>
@@ -109,6 +121,10 @@
                                         <td>
                                             <img src="{{ Storage::url($show->coverBuku) }}" class="img-fluid rounded-start"
                                                 style="width: 50px; height: 50px;">
+                                            <br>
+                                            <a href="{{ route('Buku.Download', ['id' => $show->id, 'type' => 'cover']) }}"
+                                                target="_blank"> Download
+                                                Cover</a>
                                         </td>
                                     </tr>
                                     <tr>
@@ -192,3 +208,33 @@
         </div>
     @endforeach
 @endsection
+
+@push('js')
+    <script>
+        $(function() {
+            $('[placeholder="pencarian"]').on("keyup", function() {
+                let value = $(this).val();
+                let hideParentContent = $("#content .items");
+
+                if (value != "") {
+                    hideParentContent.each(function(index, el) {
+                        $(el).addClass("d-none")
+
+                        if (el.innerText
+                            .trim()
+                            .toUpperCase()
+                            .includes($('input[placeholder="pencarian"]').val().toUpperCase())) {
+                            $(el).removeClass("d-none");
+                        } else {
+                            $(el).addClass("d-none");
+                        }
+                    })
+                } else {
+                    hideParentContent.each(function(index, el) {
+                        $(el).removeClass("d-none");
+                    })
+                }
+            })
+        })
+    </script>
+@endpush

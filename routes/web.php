@@ -52,6 +52,7 @@ Route::get('/db', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/download/{id}/{type}', [BukuController::class, 'bukuDownload'])->name('Buku.Download');
 
 Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::prefix('Admin')->group(function () {

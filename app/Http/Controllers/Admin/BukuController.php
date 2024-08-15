@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Nette\Utils\DateTime;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
 
@@ -142,5 +143,24 @@ class BukuController extends Controller
 
         // Redirect kembali ke halaman publish dengan pesan sukses
         return redirect()->route('Admin.Buku.Publish')->with('success', 'Buku berhasil dipublish!');
+    }
+
+    public function bukuDownload($id, $type)
+    {
+        $buku = Buku::findOrFail($id);
+
+        if ($type == 'cover') {
+            return response()->download(public_path('storage/' . $buku->coverBuku));
+        }
+
+        if ($type == 'draft') {
+            return response()->download(public_path('storage/' . $buku->draftBuku));
+        }
+
+        if ($type == 'keaslian') {
+            return response()->download(public_path('storage/' . $buku->suratKeaslian));
+        }
+
+        abort(404);
     }
 }
