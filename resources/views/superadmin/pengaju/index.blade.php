@@ -1,11 +1,11 @@
 @extends('layouts.index')
 @section('main-content')
     <div class="pagetitle">
-        <h1>Data Admin</h1>
+        <h1>Data Penulis</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                <li class="breadcrumb-item active">Data Admin</li>
+                <li class="breadcrumb-item active">Data Penulis</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -28,7 +28,7 @@
                     <div class="card-header d-flex align-items-start justify-content-between">
                         <span>
                             <h5 class="card-title m-0 p-0">Data tables</h5>
-                            <p>Berikut adalah tabel data pengguna admin.</p>
+                            <p>Berikut adalah tabel data pengguna penulis.</p>
                         </span>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAdmin">
                             <i class="bi bi-plus"></i>
@@ -81,7 +81,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Admin Baru</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Penulis Baru</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('SuperAdmin.Account.Pengaju.Store') }}" enctype="multipart/form-data" method="POST"
@@ -135,7 +135,7 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Admin</h1>
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Penulis</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form action="{{ route('SuperAdmin.Account.Pengaju.Update', $p->user->id) }}"

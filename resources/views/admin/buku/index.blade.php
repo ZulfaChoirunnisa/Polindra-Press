@@ -22,7 +22,7 @@
                         @if ($b->status == 'pending')
                             <span class="badge position-absolute bg-info">Pending</span>
                         @elseif ($b->status == 'accept')
-                            <span class="badge position-absolute bg-primary">Accepted</span>
+                            <span class="badge position-absolute bg-primary">Disetujui</span>
                         @elseif ($b->status == 'revisi')
                             <span class="badge position-absolute bg-warning">Revisi</span>
                         @elseif ($b->status == 'tolak')
@@ -197,7 +197,7 @@
                         <div class="modal-footer">
                             @if ($show->status == 'pending')
                                 <button class="btn btn-primary" type="submit" name="status"
-                                    value="accept">Accepted</button>
+                                    value="accept">Setujui</button>
                                 <button class="btn btn-warning" type="submit" name="status" value="revisi">Revisi</button>
                                 <button class="btn btn-danger" type="submit" name="status" value="tolak">Tolak</button>
                             @endif

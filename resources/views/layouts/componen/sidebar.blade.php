@@ -92,7 +92,7 @@
                 <a class="nav-link {{ request()->is('SuperAdmin/account/pengaju') ? '' : 'collapsed' }}"
                     href="{{ route('SuperAdmin.Account.Pengaju.Index') }}">
                     <i class="bi bi-people-fill"></i>
-                    <span>Akun Pengaju</span>
+                    <span>Akun Penulis</span>
                 </a>
             </li>
             <li class="nav-item">
