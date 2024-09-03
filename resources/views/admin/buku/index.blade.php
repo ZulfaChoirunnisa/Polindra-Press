@@ -31,7 +31,7 @@
                         <img src="{{ Storage::url($b->coverBuku) }}" class="card-img-top" alt="{{ $b->judul }}"
                             height="200">
                         <div class="card-body">
-                            <h5 class="card-title">{{ $b->judul }} ({{ $b->tahunTerbit }})</h5>
+                            <h5 class="card-title">{{ Str::limit($b->judul, 25) }} ({{ $b->tahunTerbit }})</h5>
                             <div>
                                 @if (auth()->user()->role == 'superadmin')
                                     @if ($b->status == 'accept')

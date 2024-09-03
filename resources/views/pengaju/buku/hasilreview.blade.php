@@ -34,7 +34,7 @@
                             @if (!empty($b->isbn) && !empty($b->noProduk) && $b->publish == 'is_publish')
                                 <div class="badge bg-success">buku sudah di publish</div>
                             @endif
-                            <h5 class="card-title py-2 my-2">{{ $b->judul }} ({{ $b->tahunTerbit }})</h5>
+                            <h5 class="card-title py-2 my-2">{{ Str::limit($b->judul, 25) }} ({{ $b->tahunTerbit }})</h5>
                             <div>
                                 @if ($b->status == 'revisi')
                                     <td>
