@@ -31,7 +31,7 @@
                         <img src="{{ Storage::url($b->coverBuku) }}" class="card-img-top" alt="{{ $b->judul }}"
                             height="200">
                         <div class="card-body">
-                            <h5 class="card-title">{{ $b->judul }} ({{ $b->tahunTerbit }})</h5>
+                            <h5 class="card-title">{{ Str::limit($b->judul, 25) }} ({{ $b->tahunTerbit }})</h5>
                             <div>
                                 @if (auth()->user()->role == 'superadmin')
                                     @if ($b->status == 'accept')
@@ -57,7 +57,7 @@
         <div class="modal fade" id="verticalycentered{{ $show->id }}" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
-                    <form action="{{ url('Admin/buku/review/' . $show->id) }}" method="POST">
+                    <form action="{{ url('SuperAdmin/buku/review/' . $show->id) }}" method="POST">
                         @csrf
                         <div class="modal-header">
                             <h5 class="modal-title">Detail Ajuan</h5>

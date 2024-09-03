@@ -31,6 +31,7 @@ class BukuController extends Controller
     }
     public function store(Request $request)
     {
+        
         $buku = new Buku();
         $buku->title = $request->title;
         $buku->author = $request->author;
@@ -82,8 +83,25 @@ class BukuController extends Controller
             return back()->with('error', $e->getMessage());
         }
 
-
         return redirect('/Admin/buku')->with('status', 'Book reviewed successfully!');
+    }
+
+    public function postreviewAdmin(Request $request, $id)
+    {
+        try {
+            DB::beginTransaction();
+            $buku = Buku::find($id);
+            $buku->status = $request->status;
+            $buku->adminComment = $request->catatan;
+            $buku->save();
+            DB::commit();
+            return back()->with('success', 'Status Berhasil Diubah');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', $e->getMessage());
+        }
+
+        return redirect('/SuperAdmin/buku')->with('status', 'Book reviewed successfully!');
     }
 
     public function edit(Request $request, $id)
@@ -94,7 +112,6 @@ class BukuController extends Controller
     public function storeedit(Request $request, $id)
     {
         DB::beginTransaction();
-
         try {
             $buku = Buku::find($id);
             $buku->update([
