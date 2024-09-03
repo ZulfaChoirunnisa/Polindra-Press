@@ -86,7 +86,7 @@
 
                             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
-                                <form action="{{ route('SuperAdmin.profile.update') }}" enctype="multipart/form-data"
+                                <form action="{{ route('SuperAdmin.Buku.profile.update') }}" enctype="multipart/form-data"
                                     method="POST" mul>
                                     @csrf
                                     @method('PUT')
@@ -150,7 +150,7 @@
 
                             <div class="tab-pane fade pt-3" id="profile-change-password">
                                 <!-- Change Password Form -->
-                                <form action="{{ route('SuperAdmin.profile.reset') }}" method="POST">
+                                <form action="{{ route('SuperAdmin.Buku.profile.reset') }}" method="POST">
                                     @csrf
                                     @method('PUT')
                                     <div class="row mb-3">

@@ -54,10 +54,17 @@
     </section>
 
     @foreach ($buku as $show)
+        @php
+            if (auth()->user()->role == 'admin') {
+                $url = url('Admin/buku/review/' . $show->id);
+            } else {
+                $url = url('SuperAdmin/buku/review/' . $show->id);
+            }
+        @endphp
         <div class="modal fade" id="verticalycentered{{ $show->id }}" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
-                    <form action="{{ url('Admin/buku/review/' . $show->id) }}" method="POST">
+                    <form action="{{ $url }}" method="POST">
                         @csrf
                         <div class="modal-header">
                             <h5 class="modal-title">Detail Ajuan</h5>
