@@ -116,7 +116,6 @@ Route::middleware(['auth', 'user-access:superadmin'])->group(function () {
             Route::put('profile/reset', [ProfileController::class, 'reset'])->name('profile.reset');
             Route::put('review/edit/{id}', [BukuController::class, 'storeedit'])->name('Storeedit');
         });
-
-        Route::get('export-users', [BukuController::class, 'exportBukuUsers'])->name('SuperAdmin.Export');
     });
 });
+Route::get('SuperAdmin/export-users', [BukuController::class, 'exportBukuUsers'])->name('SuperAdmin.Export');
