@@ -54,6 +54,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/download/{id}/{type}', [BukuController::class, 'bukuDownload'])->name('Buku.Download');
 
+Route::put('Admin/Buku/Publish/{id}', [BukuController::class, 'publishBuku'])->name('Admin.Buku.Publish.Post');
 Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::prefix('Admin')->group(function () {
         Route::get('buku/dashboard', [BukuController::class, 'dashboard'])->name('Admin.Buku.Dashboard');
@@ -62,9 +63,8 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
         Route::get('buku/download', [BukuController::class, 'download'])->name('Admin.Buku.Download');
         Route::get('buku/edit/{id}', [BukuController::class, 'edit'])->name('Admin.Buku.Edit');
         Route::put('buku/review/edit/{id}', [BukuController::class, 'storeedit'])->name('Admin.Buku.Storeedit');
-        Route::get('export-users', [BukuController::class, 'exportBukuUsers'])->name('export.users');
         Route::get('Buku/Publish', [BukuController::class, 'Publish'])->name('Admin.Buku.Publish');
-        Route::put('Buku/Publish/{id}', [BukuController::class, 'publishBuku'])->name('Admin.Buku.Publish.Post');
+        Route::get('export-users', [BukuController::class, 'exportBukuUsers'])->name('export.users');
 
         Route::get('buku/profileadmin', [AdminProfileController::class, 'profileadmin'])->name('Admin.Buku.Profileadmin');
         Route::put('buku/profileadmin/update', [AdminProfileController::class, 'update'])->name('Admin.profileadmin.update');
